@@ -1,240 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KBW | NEURAL SYSTEM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto+Mono:wght@300;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <title>COSTM | نظام التواصل المتكامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
+        /* إعدادات الألوان الطبيعية */
         :root {
-            --primary: #00f2fe;
-            --secondary: #7000ff;
-            --bg-dark: #020508;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(0, 242, 254, 0.3);
+            --main-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-color: #1e293b;
+            --accent-color: #3b82f6;
+            --text-dark: #334155;
+            --text-light: #64748b;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --border-color: #e2e8f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-dark);
             height: 100vh;
-            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        #particles-js {
-            position: absolute;
+        /* حاوية النوافذ */
+        .window-container {
+            background: var(--card-bg);
             width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        /* واجهة الدخول */
-        #login-screen {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            animation: fadeIn 1.5s ease;
-        }
-
-        .kbw-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8rem;
-            font-weight: 900;
-            background: linear-gradient(to bottom, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.5));
-            transform: perspective(1000px) rotateX(10deg);
-            margin-bottom: 20px;
-        }
-
-        .system-box {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
+            max-width: 450px;
             padding: 40px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
 
-        input {
+        h2 { text-align: center; margin-bottom: 25px; color: var(--primary-color); font-weight: 700; }
+
+        .input-field {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-field:focus { border-color: var(--accent-color); }
+
+        .main-btn {
             width: 100%;
             padding: 15px;
-            margin-bottom: 20px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--border);
-            color: var(--primary);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
             border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
             transition: 0.3s;
         }
 
-        input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+        .main-btn:hover { background-color: #0f172a; transform: translateY(-2px); }
 
-        .kbw-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
-            border: none;
-            color: white;
-            font-family: 'Orbitron';
-            font-weight: bold;
-            letter-spacing: 2px;
-            border-radius: 12px;
+        .toggle-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-light);
             cursor: pointer;
-            transition: 0.4s;
-            text-transform: uppercase;
         }
 
-        .kbw-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 30px var(--secondary);
-        }
+        .toggle-link span { color: var(--accent-color); font-weight: 600; }
 
-        /* واجهة النظام الرئيسية */
-        #main-system {
+        /* واجهة الشات */
+        #chat-interface {
             display: none;
             width: 95%;
+            max-width: 800px;
             height: 90vh;
-            z-index: 20;
-            grid-template-columns: 300px 1fr 300px;
-            gap: 20px;
-            animation: slideUp 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-        }
-
-        .side-panel {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .chat-area {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            display: flex;
+            background: white;
+            border-radius: 24px;
             flex-direction: column;
             overflow: hidden;
-            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
         }
 
-        #messages {
+        .chat-header {
+            padding: 20px 30px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
             flex: 1;
             padding: 25px;
             overflow-y: auto;
+            background: #f1f5f9;
             display: flex;
             flex-direction: column;
+            gap: 12px;
+        }
+
+        .msg-box {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            max-width: 80%;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .msg-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }
+        .msg-user { font-weight: 700; color: var(--accent-color); }
+        .msg-admin { color: var(--danger); font-weight: 800; }
+
+        .chat-input-area {
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
             gap: 15px;
         }
 
-        .message-bubble {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 15px;
-            max-width: 80%;
-            border-left: 4px solid var(--primary);
-            animation: popIn 0.3s ease;
+        .del-btn {
+            color: var(--danger);
+            font-size: 11px;
+            cursor: pointer;
+            border: 1px solid var(--danger);
+            padding: 2px 6px;
+            border-radius: 5px;
+            display: none;
+            margin-top: 8px;
+            width: fit-content;
         }
 
-        .user-tag { color: var(--primary); font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; display: block; }
-
-        .input-group {
-            padding: 20px;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            gap: 10px;
+        .admin-badge {
+            background: var(--danger);
+            color: white;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-left: 5px;
         }
-
-        /* انيميشنات */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        /* شاشة الهاردوير الوهيمة */
-        .stat-card {
-            background: rgba(0,0,0,0.4);
-            padding: 15px;
-            border-radius: 12px;
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .stat-val { font-size: 1.2rem; color: var(--primary); font-weight: bold; }
-
     </style>
 </head>
 <body>
 
-    <div id="particles-js"></div>
+    <div id="auth-container" class="window-container">
+        <h2 id="form-title">دخول النظام</h2>
+        
+        <div id="login-form">
+            <input type="text" id="log-user" class="input-field" placeholder="اسم المستخدم">
+            <input type="password" id="log-pass" class="input-field" placeholder="كلمة المرور">
+            <button class="main-btn" onclick="handleLogin()">تسجيل الدخول</button>
+            <div class="toggle-link" onclick="toggleAuth(true)">ليس لديك حساب؟ <span>إنشاء حساب جديد</span></div>
+        </div>
 
-    <div id="login-screen">
-        <div class="kbw-logo">KBW</div>
-        <div class="system-box">
-            <p style="margin-bottom: 20px; font-size: 0.8rem; color: #888;">NEURAL NETWORK INITIALIZATION...</p>
-            <input type="text" id="userInput" placeholder="ACCESS IDENTITY">
-            <button class="kbw-btn" onclick="initializeSystem()">BOOT SYSTEM</button>
+        <div id="reg-form" style="display: none;">
+            <input type="text" id="reg-user" class="input-field" placeholder="اختر اسم المستخدم">
+            <input type="password" id="reg-pass" class="input-field" placeholder="اختر كلمة المرور">
+            <button class="main-btn" onclick="handleRegister()" style="background-color: var(--accent-color);">تأكيد التسجيل</button>
+            <div class="toggle-link" onclick="toggleAuth(false)">لديك حساب بالفعل؟ <span>دخول</span></div>
         </div>
     </div>
 
-    <div id="main-system">
-        <div class="side-panel">
-            <h3 style="font-family: 'Orbitron'; color: var(--primary);">STATUS</h3>
-            <div class="stat-card">
-                <div>CORE CPU</div>
-                <div class="stat-val" id="cpu-val">44%</div>
+    <div id="chat-interface">
+        <div class="chat-header">
+            <div>
+                <span id="current-user-display" style="font-weight: bold;"></span>
+                <span id="role-badge"></span>
             </div>
-            <div class="stat-card">
-                <div>RAM USAGE</div>
-                <div class="stat-val">2.4 GB</div>
-            </div>
-            <div class="stat-card">
-                <div>REFLEX LATENCY</div>
-                <div class="stat-val">0.4ms</div>
-            </div>
+            <button onclick="location.reload()" style="background:none; border:1px solid rgba(255,255,255,0.3); color:white; padding:5px 15px; border-radius:8px; cursor:pointer;">خروج آمن</button>
         </div>
 
-        <div class="chat-area">
-            <div style="padding: 20px; background: var(--glass); font-family: 'Orbitron'; border-bottom: 1px solid var(--border);">
-                KBW MAIN TERMINAL <span style="float: right; font-size: 0.7rem; color: var(--primary);">● ONLINE</span>
-            </div>
-            <div id="messages"></div>
-            <div class="input-group">
-                <input type="text" id="msgInput" placeholder="TYPE COMMAND OR MESSAGE..." style="margin:0;">
-                <button class="kbw-btn" style="width: 120px; padding: 10px;" onclick="sendData()">SEND</button>
-            </div>
-        </div>
+        <div id="chat-messages" class="chat-messages"></div>
 
-        <div class="side-panel">
-            <h3 style="font-family: 'Orbitron'; color: var(--secondary);">NETWORK</h3>
-            <div style="font-size: 0.8rem; color: #666;">
-                Connected to Firebase RTD...<br>
-                Port: 443 (SSL)<br>
-                Location: Saudi Arabia
-            </div>
-            <div style="margin-top: auto;">
-                <button class="kbw-btn" style="background: #ff0055;" onclick="location.reload()">LOGOUT</button>
-            </div>
+        <div class="chat-input-area">
+            <input type="text" id="messageInput" class="input-field" placeholder="اكتب رسالتك هنا..." style="margin:0;">
+            <button class="main-btn" style="width: 100px; margin:0;" onclick="sendMessage()">إرسال</button>
         </div>
     </div>
 
     <script type="module">
-        // استيراد Firebase من صورتك السابقة
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, remove, get, child, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+        // إعدادات Firebase الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyCStasVXz1XVpz16U-X0tscQQYI8CFkeRM",
             authDomain: "costm-system.firebaseapp.com",
@@ -247,65 +214,99 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const chatRef = ref(db, 'kbw_chats');
+        const usersRef = ref(db, 'system_users');
+        const chatRef = ref(db, 'v2_messages');
 
-        // تشغيل النظام
-        window.initializeSystem = () => {
-            const name = document.getElementById('userInput').value;
-            if(name) {
-                localStorage.setItem('kbw_user', name);
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-system').style.display = 'grid';
-                initParticles();
+        // تبديل بين الدخول والتسجيل
+        window.toggleAuth = (showReg) => {
+            document.getElementById('login-form').style.display = showReg ? 'none' : 'block';
+            document.getElementById('reg-form').style.display = showReg ? 'block' : 'none';
+            document.getElementById('form-title').innerText = showReg ? 'إنشاء حساب' : 'دخول النظام';
+        };
+
+        // إنشاء حساب جديد
+        window.handleRegister = async () => {
+            const u = document.getElementById('reg-user').value;
+            const p = document.getElementById('reg-pass').value;
+            if(!u || !p) return alert("امسح الخانات واكتب بياناتك");
+
+            const snapshot = await get(child(usersRef, u));
+            if(snapshot.exists()) return alert("هذا المستخدم موجود مسبقاً");
+
+            await set(child(usersRef, u), { password: p, role: 'user' });
+            alert("تم إنشاء الحساب بنجاح! يمكنك الدخول الآن");
+            toggleAuth(false);
+        };
+
+        // تسجيل الدخول
+        window.handleLogin = async () => {
+            const u = document.getElementById('log-user').value;
+            const p = document.getElementById('log-pass').value;
+
+            // كود الآدمن الخاص بك
+            if(u === "22" && p === "4411") {
+                enterChat("المدير العام", "admin");
+                return;
+            }
+
+            const snapshot = await get(child(usersRef, u));
+            if(snapshot.exists() && snapshot.val().password === p) {
+                enterChat(u, 'user');
+            } else {
+                alert("بيانات الدخول خاطئة أو الحساب غير موجود");
             }
         };
 
-        // إرسال البيانات
-        window.sendData = () => {
-            const text = document.getElementById('msgInput').value;
-            const user = localStorage.getItem('kbw_user');
+        function enterChat(username, role) {
+            sessionStorage.setItem('c_user', username);
+            sessionStorage.setItem('c_role', role);
+            
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('chat-interface').style.display = 'flex';
+            document.getElementById('current-user-display').innerText = "مرحباً: " + username;
+            if(role === 'admin') document.getElementById('role-badge').innerHTML = '<span class="admin-badge">إدارة</span>';
+        }
+
+        // إرسال رسالة
+        window.sendMessage = () => {
+            const text = document.getElementById('messageInput').value;
+            const user = sessionStorage.getItem('c_user');
+            const role = sessionStorage.getItem('c_role');
             if(text) {
-                push(chatRef, { user, text, timestamp: Date.now() });
-                document.getElementById('msgInput').value = "";
+                push(chatRef, { user, text, role, time: new Date().toLocaleTimeString() });
+                document.getElementById('messageInput').value = "";
             }
         };
 
-        // استقبال الرسائل لايف
-        onChildAdded(chatRef, (snapshot) => {
-            const data = snapshot.val();
-            const box = document.getElementById('messages');
-            box.innerHTML += `
-                <div class="message-bubble">
-                    <span class="user-tag">@${data.user}</span>
-                    ${data.text}
+        // استقبال الرسائل
+        onChildAdded(chatRef, (snap) => {
+            const data = snap.val();
+            const isAdmin = sessionStorage.getItem('c_role') === 'admin';
+            const box = document.getElementById('chat-messages');
+            
+            const div = document.createElement('div');
+            div.className = 'msg-box';
+            div.innerHTML = `
+                <div class="msg-info">
+                    <span class="${data.role === 'admin' ? 'msg-admin' : 'msg-user'}">${data.user}</span>
+                    <span style="color:#aaa">${data.time}</span>
                 </div>
+                <div>${data.text}</div>
+                <div class="del-btn" id="btn-${snap.key}" onclick="deleteMessage('${snap.key}')">حذف الرسالة</div>
             `;
+            
+            box.appendChild(div);
+            if(isAdmin) document.getElementById(`btn-${snap.key}`).style.display = 'block';
             box.scrollTop = box.scrollHeight;
         });
 
-        // تأثيرات الهاردوير (وهمية)
-        setInterval(() => {
-            const cpu = Math.floor(Math.random() * (48 - 40 + 1)) + 40;
-            document.getElementById('cpu-val').innerText = cpu + "%";
-        }, 3000);
-
-        // إعداد خلفية الجزيئات
-        function initParticles() {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": { "value": 80 },
-                    "color": { "value": "#00f2fe" },
-                    "shape": { "type": "circle" },
-                    "opacity": { "value": 0.5 },
-                    "size": { "value": 3 },
-                    "line_linked": { "enable": true, "distance": 150, "color": "#00f2fe", "opacity": 0.4, "width": 1 },
-                    "move": { "enable": true, "speed": 2 }
-                },
-                "interactivity": {
-                    "events": { "onhover": { "enable": true, "mode": "repulse" } }
-                }
-            });
-        }
+        // حذف الرسالة (للآدمن فقط)
+        window.deleteMessage = (id) => {
+            if(confirm("هل أنت متأكد من حذف هذه الرسالة؟")) {
+                remove(ref(db, `v2_messages/${id}`));
+                location.reload(); 
+            }
+        };
     </script>
 </body>
 </html>
