@@ -3,279 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KBW - Global Platform</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>KBW | NEURAL NETWORK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
-        :root {
-            --main-bg: #000000;
-            --card-bg: #111111;
-            --accent: #0084ff;
-            --text: #ffffff;
-            --gray: #888;
-            --admin-color: #ff3e3e;
-            --owner-color: #ffd700;
-        }
-
+        :root { --neon: #00f2fe; --dark: #050a0e; --purple: #7000ff; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--main-bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+        body { background: var(--dark); margin: 0; font-family: 'Tajawal', sans-serif; height: 100vh; color: white; overflow: hidden; display: flex; flex-direction: column; }
+        
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        
+        .header { 
+            position: relative; z-index: 10; padding: 15px; 
+            background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--neon); 
+            display: flex; justify-content: space-between; align-items: center; 
+            font-family: 'Orbitron'; color: var(--neon);
+            text-shadow: 0 0 10px var(--neon);
         }
 
-        /* واجهة الدخول وإنشاء الحساب */
-        #auth-container {
-            position: fixed;
-            inset: 0;
-            background: var(--main-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+        #messages { 
+            flex: 1; position: relative; z-index: 10; 
+            padding: 20px; overflow-y: auto; 
+            display: flex; flex-direction: column; gap: 15px; 
+            background: rgba(0,0,0,0.05);
         }
-
-        .auth-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            border: 1px solid #222;
-        }
-
-        .auth-card h2 { color: var(--accent); margin-bottom: 20px; }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--accent);
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        /* واجهة الشات الرئيسية */
-        #app-container { display: none; flex-direction: column; height: 100%; }
-
-        header {
-            padding: 15px;
-            background: var(--card-bg);
-            border-bottom: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #chat-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
-        }
-
-        /* فقاعات الرسائل */
-        .msg {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 15px;
-            position: relative;
+        
+        .msg-card { 
+            background: rgba(255,255,255,0.05); padding: 12px 18px; 
+            border-radius: 15px; max-width: 85%; 
+            border-right: 3px solid var(--neon); 
             animation: fadeIn 0.3s ease;
+        }
+        
+        .user-label {
+            display: block; font-family: 'Orbitron'; font-size: 10px;
+            color: var(--neon); margin-bottom: 5px; opacity: 0.8;
+        }
+
+        .input-area { 
+            position: relative; z-index: 10; padding: 20px; 
+            background: #000; display: flex; gap: 10px; 
+            border-top: 1px solid #222; 
+            padding-bottom: calc(20px + env(safe-area-inset-bottom)); 
+        }
+
+        input { 
+            flex: 1; padding: 15px; background: #111; 
+            border: 1px solid #333; color: var(--neon); 
+            border-radius: 10px; outline: none; font-size: 16px; 
+        }
+
+        .send-btn { 
+            padding: 0 25px; background: linear-gradient(45deg, var(--purple), var(--neon)); 
+            border: none; color: white; border-radius: 10px; 
+            font-weight: bold; cursor: pointer; font-family: 'Orbitron';
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .msg-me { align-self: flex-end; background: var(--accent); border-bottom-right-radius: 2px; }
-        .msg-them { align-self: flex-start; background: #222; border-bottom-left-radius: 2px; }
-
-        .sender-info { font-size: 11px; font-weight: bold; margin-bottom: 4px; display: flex; gap: 5px; }
-        .rank-tag { padding: 1px 5px; border-radius: 4px; font-size: 9px; }
-        
-        /* نظام الإدخال الأسفل */
-        .input-area {
-            padding: 15px;
-            background: var(--card-bg);
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .file-label {
-            background: #333;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        #image-preview { max-width: 100%; border-radius: 10px; margin-top: 5px; }
-
     </style>
 </head>
 <body>
 
-    <div id="auth-container">
-        <div class="auth-card">
-            <h2>KBW JOIN</h2>
-            <input type="text" id="user-name" placeholder="اسم المستخدم">
-            <input type="email" id="user-email" placeholder="البريد الإلكتروني">
-            <input type="password" id="user-pass" placeholder="كلمة السر (10+ خانات)">
-            <button class="btn" onclick="handleAuth('signup')">إنشاء حساب جديد</button>
-            <p style="font-size: 12px; color: var(--gray); margin: 10px 0;">أو</p>
-            <button class="btn" style="background:#222;" onclick="handleAuth('login')">تسجيل دخول</button>
-        </div>
+    <div id="particles-js"></div>
+
+    <div class="header">
+        <span>KBW SYSTEM</span>
+        <span id="my-identity" style="font-size: 10px; opacity: 0.6;"></span>
     </div>
 
-    <div id="app-container">
-        <header>
-            <b style="color: var(--accent);">KBW SYSTEM</b>
-            <div id="user-profile" style="font-size: 12px;"></div>
-        </header>
+    <div id="messages"></div>
 
-        <div id="chat-box">
-            </div>
-
-        <div class="input-area">
-            <label class="file-label">
-                📷 <input type="file" id="file-input" style="display:none;" accept="image/*">
-            </label>
-            <input type="text" id="msg-input" placeholder="اكتب رسالتك هنا...">
-            <button class="btn" style="width: 80px; margin:0;" onclick="sendMedia()">إرسال</button>
-        </div>
+    <div class="input-area">
+        <input type="text" id="msgInput" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')send()">
+        <button class="send-btn" onclick="send()">SEND</button>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // إعداداتك من الصورة
+        // ربط الـ Firebase الخاص بك
         const firebaseConfig = {
-            apiKey: "AIzaSyCStasVxz1XVpz16U-X0tscQQYI8CFkErM",
+            apiKey: "AIzaSyCStasVXz1XVpz16U-X0tscQQYI8CFkeRM",
             authDomain: "costm-system.firebaseapp.com",
             projectId: "costm-system",
-            storageBucket: "costm-system.appspot.com",
+            storageBucket: "costm-system.firebasestorage.app",
             messagingSenderId: "24126933645",
-            appId: "1:24126933645:web:e38b4a3456dd1e5d87b0c4"
+            appId: "1:24126933645:web:e38b4a3456dd1e5d87b0c4",
+            databaseURL: "https://costm-system-default-rtdb.firebaseio.com/" 
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        const db = getDatabase(app);
+        const chatRef = ref(db, 'kbw_auto_chat');
 
-        let myProfile = null;
-
-        // --- نظام التزامن الفوري ---
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const docRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    myProfile = docSnap.data();
-                    document.getElementById('auth-container').style.display = 'none';
-                    document.getElementById('app-container').style.display = 'flex';
-                    document.getElementById('user-profile').innerText = `مرحباً، ${myProfile.username}`;
-                    listenToMessages();
-                }
+        // نظام توليد الاسم المميز
+        function getMyName() {
+            let name = localStorage.getItem('kbw_auto_name');
+            if (!name) {
+                // توليد رقم عشوائي فريد لكل متصفح
+                const randomId = Math.floor(1000 + Math.random() * 9000);
+                name = "USER-" + randomId;
+                localStorage.setItem('kbw_auto_name', name);
             }
+            return name;
+        }
+
+        const myName = getMyName();
+        document.getElementById('my-identity').innerText = "ID: " + myName;
+
+        // تهيئة الخلفية
+        particlesJS('particles-js', {
+            "particles": { "number": { "value": 40 }, "color": { "value": "#00f2fe" }, "line_linked": { "opacity": 0.1 } }
         });
 
-        // --- وظيفة إنشاء الحساب ---
-        window.handleAuth = async (type) => {
-            const email = document.getElementById('user-email').value;
-            const pass = document.getElementById('user-pass').value;
-            const name = document.getElementById('user-name').value;
-
-            try {
-                if (type === 'signup') {
-                    if (pass.length < 10) return alert("كلمة السر يجب أن تكون 10 رموز!");
-                    const res = await createUserWithEmailAndPassword(auth, email, pass);
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        username: name,
-                        rank: "member",
-                        uid: res.user.uid
-                    });
-                    alert("تم إنشاء حسابك في KBW بنجاح!");
-                } else {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                }
-            } catch (e) { alert("خطأ: " + e.message); }
-        };
-
-        // --- إرسال الرسائل والصور ---
-        window.sendMedia = async () => {
-            const text = document.getElementById('msg-input').value;
-            const file = document.getElementById('file-input').files[0];
-            
-            if (!text && !file) return;
-
-            let fileUrl = null;
-            if (file) {
-                const sRef = ref(storage, `chat/${Date.now()}_${file.name}`);
-                await uploadBytes(sRef, file);
-                fileUrl = await getDownloadURL(sRef);
-            }
-
-            await addDoc(collection(db, "messages"), {
-                text: text,
-                img: fileUrl,
-                sender: myProfile.username,
-                rank: myProfile.rank,
-                uid: auth.currentUser.uid,
-                time: serverTimestamp()
-            });
-
-            document.getElementById('msg-input').value = "";
-            document.getElementById('file-input').value = "";
-        };
-
-        // --- الاستماع للرسائل (تظهر عند الجميع فوراً) ---
-        function listenToMessages() {
-            const q = query(collection(db, "messages"), orderBy("time", "asc"), limit(100));
-            onSnapshot(q, (snap) => {
-                const box = document.getElementById('chat-box');
-                box.innerHTML = "";
-                snap.forEach(d => {
-                    const m = d.data();
-                    const isMe = m.uid === auth.currentUser.uid;
-                    box.innerHTML += `
-                        <div class="msg ${isMe ? 'msg-me' : 'msg-them'}">
-                            <div class="sender-info">
-                                <span>${m.sender}</span>
-                                <span class="rank-tag" style="background:${m.rank==='owner'?'gold':'#555'}">${m.rank}</span>
-                            </div>
-                            ${m.text ? `<div>${m.text}</div>` : ''}
-                            ${m.img ? `<img src="${m.img}" id="image-preview">` : ''}
-                        </div>
-                    `;
+        // إرسال الرسالة
+        window.send = () => {
+            const input = document.getElementById('msgInput');
+            if(input.value.trim() !== "") {
+                push(chatRef, {
+                    user: myName,
+                    text: input.value,
+                    ts: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
                 });
-                box.scrollTop = box.scrollHeight;
-            });
-        }
+                input.value = "";
+            }
+        };
+
+        // استقبال الرسائل
+        onChildAdded(chatRef, (snap) => {
+            const data = snap.val();
+            const box = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = 'msg-card';
+            // إذا كانت الرسالة مني، اجعل الحواف بلون مختلف قليلاً
+            if(data.user === myName) div.style.borderRightColor = 'var(--purple)';
+            
+            div.innerHTML = `
+                <span class="user-label">${data.user}</span>
+                <div>${data.text}</div>
+                <div style="font-size:9px; color:#444; margin-top:5px;">${data.ts}</div>
+            `;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        });
     </script>
 </body>
 </html>
