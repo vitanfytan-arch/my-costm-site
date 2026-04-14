@@ -2,206 +2,212 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COSTM | نظام التواصل المتكامل</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>COSTM | MOBILE SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* إعدادات الألوان الطبيعية */
         :root {
-            --main-bg: #f8fafc;
-            --card-bg: #ffffff;
-            --primary-color: #1e293b;
-            --accent-color: #3b82f6;
-            --text-dark: #334155;
-            --text-light: #64748b;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --border-color: #e2e8f0;
+            --bg: #eff2f5;
+            --white: #ffffff;
+            --primary: #1e293b;
+            --accent: #3b82f6;
+            --magister: #d4af37;
+            --text: #334155;
+            --border: #e2e8f0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: var(--main-bg);
-            color: var(--text-dark);
+            background-color: var(--bg);
+            color: var(--text);
             height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
-        /* حاوية النوافذ */
-        .window-container {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 450px;
-            padding: 40px;
+        /* حاوية الدخول المصممة للجوال */
+        .auth-container {
+            width: 90%;
+            max-width: 400px;
+            background: var(--white);
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
         }
 
-        h2 { text-align: center; margin-bottom: 25px; color: var(--primary-color); font-weight: 700; }
-
-        .input-field {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border: 1.5px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
+        .logo-area {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--primary);
         }
 
-        .input-field:focus { border-color: var(--accent-color); }
+        .input-group {
+            margin-bottom: 15px;
+        }
 
-        .main-btn {
+        input {
             width: 100%;
             padding: 15px;
-            background-color: var(--primary-color);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px; /* مقاس 16 يمنع الجوال من عمل Zoom تلقائي */
+            font-family: 'Tajawal';
+            outline: none;
+            background: #f9fbff;
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
             transition: 0.3s;
         }
 
-        .main-btn:hover { background-color: #0f172a; transform: translateY(-2px); }
+        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
 
-        .toggle-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: var(--text-light);
-            cursor: pointer;
-        }
-
-        .toggle-link span { color: var(--accent-color); font-weight: 600; }
-
-        /* واجهة الشات */
-        #chat-interface {
+        /* واجهة الشات الكاملة للجوال */
+        #chat-app {
             display: none;
-            width: 95%;
-            max-width: 800px;
-            height: 90vh;
-            background: white;
-            border-radius: 24px;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
         }
 
-        .chat-header {
-            padding: 20px 30px;
-            background: var(--primary-color);
+        .nav-bar {
+            padding: 15px 20px;
+            background: var(--primary);
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10;
         }
 
-        .chat-messages {
+        #messages-list {
             flex: 1;
-            padding: 25px;
+            padding: 15px;
             overflow-y: auto;
             background: #f1f5f9;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .msg-box {
+        .message-card {
             background: white;
-            padding: 12px 18px;
+            padding: 12px 15px;
             border-radius: 15px;
-            border: 1px solid var(--border-color);
-            max-width: 80%;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            max-width: 85%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            border-right: 4px solid var(--accent);
         }
 
-        .msg-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }
-        .msg-user { font-weight: 700; color: var(--accent-color); }
-        .msg-admin { color: var(--danger); font-weight: 800; }
+        .magister-card {
+            border-right-color: var(--magister);
+            background: #fffef0;
+        }
 
-        .chat-input-area {
-            padding: 20px 30px;
-            background: white;
-            border-top: 1px solid var(--border-color);
+        .user-info {
             display: flex;
-            gap: 15px;
-        }
-
-        .del-btn {
-            color: var(--danger);
+            justify-content: space-between;
+            margin-bottom: 4px;
             font-size: 11px;
-            cursor: pointer;
-            border: 1px solid var(--danger);
-            padding: 2px 6px;
-            border-radius: 5px;
-            display: none;
-            margin-top: 8px;
-            width: fit-content;
         }
 
-        .admin-badge {
-            background: var(--danger);
-            color: white;
-            padding: 1px 6px;
-            border-radius: 4px;
+        .rank-tag {
+            font-weight: 900;
             font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
             margin-left: 5px;
         }
+
+        .tag-magister { background: var(--magister); color: black; }
+        .tag-user { background: #e2e8f0; color: #475569; }
+
+        .input-bar {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* دعم أجهزة الآيفون الحديثة */
+        }
+
+        .delete-icon {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 8px;
+            display: none;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* أنظمة الرتب الاحترافية */
+        .status-magister { border: 2px solid var(--magister); }
     </style>
 </head>
 <body>
 
-    <div id="auth-container" class="window-container">
-        <h2 id="form-title">دخول النظام</h2>
+    <div id="auth-screen" class="auth-container">
+        <div class="logo-area">COSTM HUB</div>
         
         <div id="login-form">
-            <input type="text" id="log-user" class="input-field" placeholder="اسم المستخدم">
-            <input type="password" id="log-pass" class="input-field" placeholder="كلمة المرور">
-            <button class="main-btn" onclick="handleLogin()">تسجيل الدخول</button>
-            <div class="toggle-link" onclick="toggleAuth(true)">ليس لديك حساب؟ <span>إنشاء حساب جديد</span></div>
+            <input type="text" id="login-u" placeholder="اسم المستخدم" class="input-group">
+            <input type="password" id="login-p" placeholder="كلمة المرور" class="input-group">
+            <button class="btn-main" onclick="processLogin()">دخول النظام</button>
+            <p onclick="viewReg(true)" style="margin-top:20px; color:var(--accent); font-size:14px;">إنشاء حساب جديد</p>
         </div>
 
-        <div id="reg-form" style="display: none;">
-            <input type="text" id="reg-user" class="input-field" placeholder="اختر اسم المستخدم">
-            <input type="password" id="reg-pass" class="input-field" placeholder="اختر كلمة المرور">
-            <button class="main-btn" onclick="handleRegister()" style="background-color: var(--accent-color);">تأكيد التسجيل</button>
-            <div class="toggle-link" onclick="toggleAuth(false)">لديك حساب بالفعل؟ <span>دخول</span></div>
+        <div id="reg-form" style="display:none">
+            <input type="text" id="reg-u" placeholder="اختر اسم مستخدم" class="input-group">
+            <input type="password" id="reg-p" placeholder="اختر كلمة مرور" class="input-group">
+            <button class="btn-main" style="background:var(--accent)" onclick="processReg()">تأكيد التسجيل</button>
+            <p onclick="viewReg(false)" style="margin-top:20px; color:var(--accent); font-size:14px;">لديك حساب؟ سجل دخولك</p>
         </div>
     </div>
 
-    <div id="chat-interface">
-        <div class="chat-header">
+    <div id="chat-app">
+        <div class="nav-bar">
             <div>
-                <span id="current-user-display" style="font-weight: bold;"></span>
-                <span id="role-badge"></span>
+                <span id="display-name" style="font-weight:bold"></span>
+                <span id="display-rank"></span>
             </div>
-            <button onclick="location.reload()" style="background:none; border:1px solid rgba(255,255,255,0.3); color:white; padding:5px 15px; border-radius:8px; cursor:pointer;">خروج آمن</button>
+            <button onclick="location.reload()" style="background:none; border:1px solid #444; color:white; padding:5px 12px; border-radius:8px;">خروج</button>
         </div>
 
-        <div id="chat-messages" class="chat-messages"></div>
+        <div id="messages-list"></div>
 
-        <div class="chat-input-area">
-            <input type="text" id="messageInput" class="input-field" placeholder="اكتب رسالتك هنا..." style="margin:0;">
-            <button class="main-btn" style="width: 100px; margin:0;" onclick="sendMessage()">إرسال</button>
+        <div class="input-bar">
+            <input type="text" id="msg-input" placeholder="اكتب رسالة..." style="margin:0">
+            <button class="btn-main" style="width:80px; margin:0; font-size:14px" onclick="doSend()">إرسال</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded, remove, get, child, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, push, onChildAdded, remove, get, child } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // إعدادات Firebase الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyCStasVXz1XVpz16U-X0tscQQYI8CFkeRM",
             authDomain: "costm-system.firebaseapp.com",
@@ -214,98 +220,95 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const usersRef = ref(db, 'system_users');
-        const chatRef = ref(db, 'v2_messages');
+        const uDB = ref(db, 'users_v3');
+        const cDB = ref(db, 'chat_v3');
 
-        // تبديل بين الدخول والتسجيل
-        window.toggleAuth = (showReg) => {
-            document.getElementById('login-form').style.display = showReg ? 'none' : 'block';
-            document.getElementById('reg-form').style.display = showReg ? 'block' : 'none';
-            document.getElementById('form-title').innerText = showReg ? 'إنشاء حساب' : 'دخول النظام';
+        window.viewReg = (show) => {
+            document.getElementById('login-form').style.display = show ? 'none' : 'block';
+            document.getElementById('reg-form').style.display = show ? 'block' : 'none';
         };
 
-        // إنشاء حساب جديد
-        window.handleRegister = async () => {
-            const u = document.getElementById('reg-user').value;
-            const p = document.getElementById('reg-pass').value;
-            if(!u || !p) return alert("امسح الخانات واكتب بياناتك");
-
-            const snapshot = await get(child(usersRef, u));
-            if(snapshot.exists()) return alert("هذا المستخدم موجود مسبقاً");
-
-            await set(child(usersRef, u), { password: p, role: 'user' });
-            alert("تم إنشاء الحساب بنجاح! يمكنك الدخول الآن");
-            toggleAuth(false);
+        window.processReg = async () => {
+            const u = document.getElementById('reg-u').value;
+            const p = document.getElementById('reg-p').value;
+            if(!u || !p) return alert("عبّ الخانات يا بطل");
+            const snap = await get(child(uDB, u));
+            if(snap.exists()) return alert("اليوزر محجوز");
+            await set(child(uDB, u), { p, r: 'user' });
+            alert("تم التسجيل! سجل دخولك الآن");
+            viewReg(false);
         };
 
-        // تسجيل الدخول
-        window.handleLogin = async () => {
-            const u = document.getElementById('log-user').value;
-            const p = document.getElementById('log-pass').value;
+        window.processLogin = async () => {
+            const u = document.getElementById('login-u').value;
+            const p = document.getElementById('login-p').value;
 
-            // كود الآدمن الخاص بك
-            if(u === "22" && p === "4411") {
-                enterChat("المدير العام", "admin");
+            // رتبة الماجستير (بياناتك الخاصة)
+            if(u === "211" && p === "كوستم") {
+                startSystem("الماجستير 🔱", "magister");
                 return;
             }
 
-            const snapshot = await get(child(usersRef, u));
-            if(snapshot.exists() && snapshot.val().password === p) {
-                enterChat(u, 'user');
+            const snap = await get(child(uDB, u));
+            if(snap.exists() && snap.val().p === p) {
+                startSystem(u, snap.val().r);
             } else {
-                alert("بيانات الدخول خاطئة أو الحساب غير موجود");
+                alert("اليوزر أو الباسورد غلط");
             }
         };
 
-        function enterChat(username, role) {
-            sessionStorage.setItem('c_user', username);
-            sessionStorage.setItem('c_role', role);
-            
-            document.getElementById('auth-container').style.display = 'none';
-            document.getElementById('chat-interface').style.display = 'flex';
-            document.getElementById('current-user-display').innerText = "مرحباً: " + username;
-            if(role === 'admin') document.getElementById('role-badge').innerHTML = '<span class="admin-badge">إدارة</span>';
+        function startSystem(u, r) {
+            localStorage.setItem('session_u', u);
+            localStorage.setItem('session_r', r);
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('chat-app').style.display = 'flex';
+            document.getElementById('display-name').innerText = u;
+            document.getElementById('display-rank').innerHTML = r === 'magister' ? '<span class="rank-tag tag-magister">ماجستير</span>' : '<span class="rank-tag tag-user">عضو</span>';
         }
 
-        // إرسال رسالة
-        window.sendMessage = () => {
-            const text = document.getElementById('messageInput').value;
-            const user = sessionStorage.getItem('c_user');
-            const role = sessionStorage.getItem('c_role');
-            if(text) {
-                push(chatRef, { user, text, role, time: new Date().toLocaleTimeString() });
-                document.getElementById('messageInput').value = "";
+        window.doSend = () => {
+            const t = document.getElementById('msg-input').value;
+            const u = localStorage.getItem('session_u');
+            const r = localStorage.getItem('session_r');
+            if(t) {
+                push(cDB, { u, t, r, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+                document.getElementById('msg-input').value = "";
             }
         };
 
-        // استقبال الرسائل
-        onChildAdded(chatRef, (snap) => {
-            const data = snap.val();
-            const isAdmin = sessionStorage.getItem('c_role') === 'admin';
-            const box = document.getElementById('chat-messages');
-            
-            const div = document.createElement('div');
-            div.className = 'msg-box';
-            div.innerHTML = `
-                <div class="msg-info">
-                    <span class="${data.role === 'admin' ? 'msg-admin' : 'msg-user'}">${data.user}</span>
-                    <span style="color:#aaa">${data.time}</span>
+        onChildAdded(cDB, (s) => {
+            const d = s.val();
+            const list = document.getElementById('messages-list');
+            const myR = localStorage.getItem('session_r');
+
+            const card = document.createElement('div');
+            card.className = `message-card ${d.r === 'magister' ? 'magister-card' : ''}`;
+            card.innerHTML = `
+                <div class="user-info">
+                    <span style="font-weight:bold; color:${d.r === 'magister' ? '#d4af37' : '#3b82f6'}">${d.u}</span>
+                    <span style="color:#999">${d.time}</span>
                 </div>
-                <div>${data.text}</div>
-                <div class="del-btn" id="btn-${snap.key}" onclick="deleteMessage('${snap.key}')">حذف الرسالة</div>
+                <div style="font-size:15px; line-height:1.4">${d.t}</div>
+                <div class="delete-icon" id="del-${s.key}" onclick="deleteNow('${s.key}')">حذف الرسالة</div>
             `;
-            
-            box.appendChild(div);
-            if(isAdmin) document.getElementById(`btn-${snap.key}`).style.display = 'block';
-            box.scrollTop = box.scrollHeight;
+
+            list.appendChild(card);
+            if(myR === 'magister') document.getElementById(`del-${s.key}`).style.display = 'block';
+            list.scrollTop = list.scrollHeight;
         });
 
-        // حذف الرسالة (للآدمن فقط)
-        window.deleteMessage = (id) => {
-            if(confirm("هل أنت متأكد من حذف هذه الرسالة؟")) {
-                remove(ref(db, `v2_messages/${id}`));
-                location.reload(); 
+        window.deleteNow = (id) => {
+            if(confirm("حذف هذه الرسالة نهائياً؟")) {
+                remove(ref(db, `chat_v3/${id}`));
+                location.reload();
             }
+        };
+
+        // فحص الدخول المسبق
+        window.onload = () => {
+            const u = localStorage.getItem('session_u');
+            const r = localStorage.getItem('session_r');
+            if(u && r) startSystem(u, r);
         };
     </script>
 </body>
