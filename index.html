@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSTM HUB | Pro Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* نظام الألوان: غامق وفاتح (Neon Tech) */
+        :root {
+            --bg-deep: #050a0e;
+            --bg-panel: #101820;
+            --accent-light: #00f2fe;
+            --accent-dim: #0088cc;
+            --text-main: #e0e0e0;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: var(--bg-deep);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            overflow: hidden;
+        }
+
+        /* اللوجو المتحرك COSTM */
+        .logo-header {
+            font-family: 'Orbitron';
+            font-size: 3.5rem;
+            color: var(--accent-light);
+            text-shadow: 0 0 20px var(--accent-light);
+            margin-bottom: 20px;
+            letter-spacing: 8px;
+            animation: glowPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px var(--accent-light)); }
+            50% { opacity: 0.6; filter: drop-shadow(0 0 20px var(--accent-dim)); }
+        }
+
+        /* واجهة الدخول وإنشاء الحساب */
+        .auth-container {
+            background: var(--bg-panel);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-dim);
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .auth-tabs { display: flex; margin-bottom: 25px; cursor: pointer; }
+        .tab { flex: 1; padding: 10px; border-bottom: 2px solid #333; transition: 0.3s; color: #666; font-family: 'Orbitron'; }
+        .tab.active { color: var(--accent-light); border-bottom: 2px solid var(--accent-light); }
+
+        input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            background: rgba(255,255,255,0.05); border: 1px solid #333;
+            color: white; border-radius: 8px; outline: none;
+        }
+
+        .main-btn {
+            width: 100%; padding: 15px; margin-top: 15px;
+            background: linear-gradient(90deg, var(--accent-dim), var(--accent-light));
+            border: none; color: white; font-weight: bold; cursor: pointer;
+            border-radius: 10px; font-family: 'Orbitron'; transition: 0.3s;
+        }
+
+        .main-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--accent-light); }
+
+        /* واجهة الشات الاحترافية */
+        #chat-interface {
+            display: none; width: 95%; max-width: 1100px; height: 90vh;
+            background: var(--bg-panel); border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.05); flex-direction: column; overflow: hidden;
+        }
+
+        .chat-top {
+            padding: 20px; background: rgba(255,255,255,0.02);
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222;
+        }
+
+        #chat-window {
+            flex: 1; padding: 25px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 15px;
+            background: radial-gradient(circle at top, #141e26, #050a0e);
+        }
+
+        .msg-bubble {
+            max-width: 60%; padding: 12px 18px; border-radius: 18px;
+            font-size: 0.95rem; position: relative; animation: pop 0.3s ease;
+        }
+
+        .me { align-self: flex-end; background: var(--accent-dim); border-bottom-right-radius: 2px; }
+        .others { align-self: flex-start; background: #2c3e50; border-bottom-left-radius: 2px; }
+
+        .img-sent { max-width: 100%; border-radius: 10px; margin-top: 8px; display: block; }
+
+        .input-bar {
+            padding: 20px; background: #0d1218; display: flex; gap: 15px; align-items: center;
+        }
+
+        #text-input {
+            flex: 1; padding: 14px; background: #1a222a;
+            border: 1px solid #333; color: white; border-radius: 30px; outline: none;
+        }
+
+        .file-btn { color: var(--accent-light); font-size: 1.5rem; cursor: pointer; }
+
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="auth-zone">
+        <div class="logo-header">COSTM</div>
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="tab active" onclick="setAuthMode('login')">LOGIN</div>
+                <div class="tab" onclick="setAuthMode('signup')">SIGN UP</div>
+            </div>
+            <input type="text" id="user-field" placeholder="Username">
+            <input type="password" id="pass-field" placeholder="Password">
+            <button class="main-btn" onclick="handleAuth()">INITIALIZE</button>
+            <p id="status-msg" style="margin-top: 15px; font-size: 0.8rem;"></p>
+        </div>
+    </div>
+
+    <div id="chat-interface">
+        <div class="chat-top">
+            <div style="font-family:'Orbitron'; color: var(--accent-light);">COSTM_CORE_v1.0</div>
+            <div id="display-name" style="font-weight: bold;"></div>
+        </div>
+        <div id="chat-window"></div>
+        <div class="input-bar">
+            <label class="file-btn">
+                ⊕ <input type="file" id="img-upload" hidden accept="image/*" onchange="sendImage(this)">
+            </label>
+            <input type="text" id="text-input" placeholder="Secure communication..." onkeypress="if(event.key==='Enter') sendText()">
+            <button class="main-btn" style="width: 100px; margin: 0;" onclick="sendText()">SEND</button>
+        </div>
+    </div>
+
+    <script>
+        let authMode = 'login';
+        let registeredUsers = JSON.parse(localStorage.getItem('costm_db')) || {};
+
+        function setAuthMode(m) {
+            authMode = m;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function handleAuth() {
+            const u = document.getElementById('user-field').value;
+            const p = document.getElementById('pass-field').value;
+            const msg = document.getElementById('status-msg');
+
+            if(!u || !p) return;
+
+            if(authMode === 'signup') {
+                registeredUsers[u] = p;
+                localStorage.setItem('costm_db', JSON.stringify(registeredUsers));
+                msg.innerText = "Access Granted. You can login now.";
+                msg.style.color = "var(--accent-light)";
+            } else {
+                if(registeredUsers[u] === p) {
+                    launchHub(u);
+                } else {
+                    msg.innerText = "Invalid Credentials.";
+                    msg.style.color = "red";
+                }
+            }
+        }
+
+        function launchHub(user) {
+            document.getElementById('auth-zone').style.display = 'none';
+            document.getElementById('chat-interface').style.display = 'flex';
+            document.getElementById('display-name').innerText = user.toUpperCase();
+        }
+
+        function sendText() {
+            const input = document.getElementById('text-input');
+            if(!input.value.trim()) return;
+            createBubble(input.value, 'text');
+            input.value = "";
+        }
+
+        function sendImage(input) {
+            const file = input.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => createBubble(e.target.result, 'image');
+            reader.readAsDataURL(file);
+        }
+
+        function createBubble(content, type) {
+            const win = document.getElementById('chat-window');
+            const b = document.createElement('div');
+            b.className = 'msg-bubble me';
+            
+            if(type === 'text') b.innerText = content;
+            else b.innerHTML = `<img src="${content}" class="img-sent">`;
+            
+            win.appendChild(b);
+            win.scrollTop = win.scrollHeight;
+        }
+    </script>
+</body>
+</html>
