@@ -3,237 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KBW | VIOLET SYSTEM</title>
+    <title>KBW | LIVE NETWORK</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --blue-neon: #00d2ff; 
-            --purple-neon: #bc13fe; 
-            --brown-bg: #3e2723; 
-            --dark-brown: #2b1d1a; 
-        }
-        
+        :root { --blue-neon: #00d2ff; --purple-neon: #bc13fe; --brown-bg: #3e2723; --dark-brown: #2b1d1a; }
         * { box-sizing: border-box; }
-        body { 
-            background-color: var(--brown-bg); 
-            margin: 0; font-family: 'Tajawal', sans-serif; 
-            height: 100vh; color: white; 
-            display: flex; flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* --- شاشة الدخول --- */
-        #intro-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #1a1210;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 1000;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .intro-text {
-            font-family: 'Orbitron';
-            font-size: 30px;
-            color: var(--purple-neon);
-            text-shadow: 0 0 15px var(--purple-neon);
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { opacity: 0.4; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1.05); }
-        }
-
-        /* --- الواجهة الرئيسية --- */
-        #main-content {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        @keyframes sway {
-            0% { transform: translateX(0px); }
-            50% { transform: translateX(10px); }
-            100% { transform: translateX(0px); }
-        }
-
-        .header { 
-            padding: 15px; background: var(--dark-brown); 
-            border-bottom: 3px solid var(--purple-neon); 
-            text-align: center; font-family: 'Orbitron'; 
-            color: var(--purple-neon); text-shadow: 0 0 15px var(--purple-neon);
-            animation: sway 4s infinite ease-in-out;
-        }
-
-        #messages { 
-            flex: 1; padding: 20px; overflow-y: auto; 
-            display: flex; flex-direction: column; gap: 15px;
-            background: rgba(0,0,0,0.4);
-        }
+        body { background-color: var(--brown-bg); margin: 0; font-family: 'Tajawal', sans-serif; height: 100vh; color: white; display: flex; flex-direction: column; overflow: hidden; }
         
-        .msg-card { 
-            background: rgba(20, 10, 20, 0.8); padding: 12px; 
-            border-radius: 10px; max-width: 80%; 
-            border: 2px solid var(--purple-neon); 
-            box-shadow: 0 0 15px rgba(188, 19, 254, 0.4);
-            align-self: flex-start;
-            animation: sway 6s infinite ease-in-out;
-        }
+        .header { padding: 15px; background: var(--dark-brown); border-bottom: 3px solid var(--purple-neon); text-align: center; font-family: 'Orbitron'; color: var(--purple-neon); text-shadow: 0 0 15px var(--purple-neon); }
+        #messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: rgba(0,0,0,0.4); }
         
-        .my-msg {
-            align-self: flex-end; 
-            border-color: var(--blue-neon);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
-            background: rgba(0, 210, 255, 0.05);
-        }
-
-        .msg-card img {
-            max-width: 100%; border-radius: 8px; margin-top: 10px;
-            border: 1px solid var(--purple-neon);
-            display: block;
-        }
-
-        .user-tag { 
-            display: block; font-family: 'Orbitron'; 
-            font-size: 10px; color: var(--purple-neon); 
-            margin-bottom: 8px; font-weight: bold;
-        }
-
+        .msg-card { background: rgba(20, 10, 20, 0.8); padding: 12px; border-radius: 10px; max-width: 80%; border: 2px solid var(--purple-neon); align-self: flex-start; }
+        .my-msg { align-self: flex-end; border-color: var(--blue-neon); background: rgba(0, 210, 255, 0.05); }
+        .msg-card img { max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--purple-neon); }
+        .user-tag { display: block; font-family: 'Orbitron'; font-size: 10px; color: var(--purple-neon); margin-bottom: 8px; }
         .my-msg .user-tag { color: var(--blue-neon); }
 
-        /* منطقة الإدخال */
-        .input-area { 
-            padding: 20px; background: var(--dark-brown); 
-            display: flex; gap: 10px; border-top: 2px solid var(--purple-neon);
-            align-items: center;
-        }
-
-        input[type="text"] { 
-            flex: 1; padding: 15px; background: #120c0b; 
-            border: 1px solid var(--purple-neon); color: white; 
-            border-radius: 8px; outline: none;
-        }
-
-        .file-label {
-            cursor: pointer; font-size: 24px;
-            transition: 0.3s;
-        }
-        .file-label:hover { transform: scale(1.2); }
-
-        button { 
-            padding: 0 25px; height: 50px; background: var(--purple-neon); 
-            border: none; color: white; border-radius: 8px; 
-            font-weight: bold; cursor: pointer; font-family: 'Orbitron';
-            box-shadow: 0 0 10px var(--purple-neon);
-        }
-        
+        .input-area { padding: 20px; background: var(--dark-brown); display: flex; gap: 10px; border-top: 2px solid var(--purple-neon); align-items: center; }
+        input[type="text"] { flex: 1; padding: 15px; background: #120c0b; border: 1px solid var(--purple-neon); color: white; border-radius: 8px; outline: none; }
+        button { padding: 0 25px; height: 50px; background: var(--purple-neon); border: none; color: white; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; }
         #file-input { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div class="intro-text">SYNCING KBW SYSTEM...</div>
-    </div>
+    <div class="header">KBW LIVE CLOUD</div>
+    <div id="messages"></div>
 
-    <div id="main-content">
-        <div class="header">KBW NETWORK</div>
-
-        <div id="messages">
-            </div>
-
-        <div class="input-area">
-            <label for="file-input" class="file-label">📸</label>
-            <input type="file" id="file-input" accept="image/*">
-            <input type="text" id="chat-input" placeholder="ACCESS SYSTEM...">
-            <button id="send-btn">SEND</button>
-        </div>
+    <div class="input-area">
+        <label for="file-input" style="cursor:pointer; font-size:24px;">📸</label>
+        <input type="file" id="file-input" accept="image/*">
+        <input type="text" id="chat-input" placeholder="أرسل للجهاز الآخر...">
+        <button id="send-btn">SEND</button>
     </div>
 
     <script>
+        // --- ضع بيانات Firebase الخاصة بك هنا ---
+        const firebaseConfig = {
+            apiKey: "ضع_هنا_الـ_API_KEY",
+            databaseURL: "ضع_هنا_رابط_القاعدة",
+            projectId: "kbw-chat",
+            storageBucket: "kbw-chat.appspot.com",
+            messagingSenderId: "123456",
+            appId: "1:123456:web:abcdef"
+        };
+        
+        // تشغيل Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const chatRef = database.ref("messages");
+
         const chatInput = document.getElementById('chat-input');
-        const sendBtn = document.getElementById('send-btn');
         const messagesDiv = document.getElementById('messages');
         const fileInput = document.getElementById('file-input');
 
-        // 1. تحميل الرسائل المخزنة عند فتح الصفحة
-        window.onload = () => {
-            loadMessages();
-            setTimeout(() => {
-                document.getElementById('intro-overlay').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('intro-overlay').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'flex';
-                }, 1000);
-            }, 2000);
-        };
+        // وظيفة الإرسال للسيرفر
+        function sendMessage(content, isImage = false) {
+            chatRef.push({
+                content: content,
+                isImage: isImage,
+                sender: "USER_" + window.navigator.platform.substring(0,3), // لتمييز الجهاز
+                timestamp: Date.now()
+            });
+        }
 
-        // 2. وظيفة إضافة رسالة وحفظها
-        function addMessage(content, type, isImage = false, save = true) {
+        // الاستماع للرسائل (أول ما تجي رسالة بالسيرفر تطلع عند الكل فوراً)
+        chatRef.on("child_added", (snapshot) => {
+            const data = snapshot.val();
+            displayMessage(data.content, data.isImage);
+        });
+
+        function displayMessage(content, isImage) {
             const msgCard = document.createElement('div');
-            msgCard.className = `msg-card ${type}`;
+            msgCard.className = `msg-card`; // يمكنك إضافة منطق لتمييز "رسائلي" عن "رسائلهم"
             
-            const userTag = document.createElement('span');
-            userTag.className = 'user-tag';
-            userTag.innerText = type === 'my-msg' ? 'KBW_USER' : 'KBW_ROOT';
+            let html = `<span class="user-tag">KBW_CLOUD</span>`;
+            if (isImage) html += `<img src="${content}">`;
+            else html += `<div>${content}</div>`;
             
-            msgCard.appendChild(userTag);
-
-            if (isImage) {
-                const img = document.createElement('img');
-                img.src = content;
-                msgCard.appendChild(img);
-            } else {
-                const text = document.createElement('div');
-                text.innerText = content;
-                msgCard.appendChild(text);
-            }
-
+            msgCard.innerHTML = html;
             messagesDiv.appendChild(msgCard);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            if (save) {
-                saveMessageLocal(content, type, isImage);
-            }
         }
 
-        // 3. حفظ في ذاكرة المتصفح
-        function saveMessageLocal(content, type, isImage) {
-            let history = JSON.parse(localStorage.getItem('kbw_history')) || [];
-            history.push({content, type, isImage});
-            localStorage.setItem('kbw_history', JSON.stringify(history));
-        }
-
-        // 4. استرجاع التاريخ
-        function loadMessages() {
-            let history = JSON.parse(localStorage.getItem('kbw_history')) || [];
-            if (history.length === 0) {
-                addMessage("نظام KBW جاهز. (ملاحظة: الرسائل تحفظ على هذا الجهاز فقط)", 'root', false, false);
-            } else {
-                history.forEach(msg => {
-                    addMessage(msg.content, msg.type, msg.isImage, false);
-                });
-            }
-        }
-
-        sendBtn.onclick = () => {
-            if (chatInput.value.trim() !== "") {
-                addMessage(chatInput.value, 'my-msg');
+        document.getElementById('send-btn').onclick = () => {
+            if (chatInput.value.trim()) {
+                sendMessage(chatInput.value);
                 chatInput.value = "";
             }
         };
 
-        chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendBtn.click(); };
-
         fileInput.onchange = function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => addMessage(e.target.result, 'my-msg', true);
-                reader.readAsDataURL(file);
-            }
+            const reader = new FileReader();
+            reader.onload = (e) => sendMessage(e.target.result, true);
+            reader.readAsDataURL(this.files[0]);
         };
     </script>
 </body>
