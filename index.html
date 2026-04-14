@@ -8,7 +8,7 @@
     <style>
         :root { 
             --blue-neon: #00d2ff; 
-            --purple-neon: #bc13fe; /* لون بنفسجي نيوني */
+            --purple-neon: #bc13fe; 
             --brown-bg: #3e2723; 
             --dark-brown: #2b1d1a; 
         }
@@ -35,7 +35,7 @@
 
         .intro-text {
             font-family: 'Orbitron';
-            font-size: 35px;
+            font-size: 30px;
             color: var(--purple-neon);
             text-shadow: 0 0 15px var(--purple-neon);
             animation: pulse 1.5s infinite alternate;
@@ -43,7 +43,7 @@
 
         @keyframes pulse {
             from { opacity: 0.4; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.05); }
         }
 
         /* --- الواجهة الرئيسية --- */
@@ -55,69 +55,72 @@
 
         @keyframes sway {
             0% { transform: translateX(0px); }
-            50% { transform: translateX(6px); }
+            50% { transform: translateX(10px); }
             100% { transform: translateX(0px); }
         }
 
         .header { 
             padding: 15px; background: var(--dark-brown); 
-            border-bottom: 2px solid var(--purple-neon); 
+            border-bottom: 3px solid var(--purple-neon); 
             text-align: center; font-family: 'Orbitron'; 
-            color: var(--purple-neon); text-shadow: 0 0 10px var(--purple-neon);
+            color: var(--purple-neon); text-shadow: 0 0 15px var(--purple-neon);
             animation: sway 4s infinite ease-in-out;
         }
 
         #messages { 
             flex: 1; padding: 20px; overflow-y: auto; 
             display: flex; flex-direction: column; gap: 15px;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4);
         }
         
-        /* تصميم الرسالة بالإطار البنفسجي */
         .msg-card { 
-            background: rgba(20, 10, 20, 0.6); padding: 12px; 
+            background: rgba(20, 10, 20, 0.8); padding: 12px; 
             border-radius: 10px; max-width: 80%; 
-            border: 1px solid var(--purple-neon); /* إطار بنفسجي كامل */
-            box-shadow: 0 0 8px rgba(188, 19, 254, 0.3);
+            border: 2px solid var(--purple-neon); 
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.4);
             align-self: flex-start;
-            animation: sway 5s infinite ease-in-out;
+            animation: sway 6s infinite ease-in-out;
         }
         
         .my-msg {
             align-self: flex-end; 
-            background: rgba(188, 19, 254, 0.1);
-            border-color: var(--blue-neon); /* إطار أزرق لرسائلك لتمييزها أو اجعلها بنفسجي أيضاً حسب رغبتك */
+            border-color: var(--blue-neon);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+            background: rgba(0, 210, 255, 0.05);
         }
 
         .msg-card img {
-            max-width: 100%; border-radius: 5px; margin-top: 10px;
+            max-width: 100%; border-radius: 8px; margin-top: 10px;
             border: 1px solid var(--purple-neon);
             display: block;
         }
 
         .user-tag { 
             display: block; font-family: 'Orbitron'; 
-            font-size: 11px; color: var(--purple-neon); 
-            margin-bottom: 8px; border-bottom: 1px solid rgba(188, 19, 254, 0.2);
+            font-size: 10px; color: var(--purple-neon); 
+            margin-bottom: 8px; font-weight: bold;
         }
+
+        .my-msg .user-tag { color: var(--blue-neon); }
 
         /* منطقة الإدخال */
         .input-area { 
             padding: 20px; background: var(--dark-brown); 
-            display: flex; gap: 10px; border-top: 1px solid var(--purple-neon);
+            display: flex; gap: 10px; border-top: 2px solid var(--purple-neon);
             align-items: center;
         }
 
         input[type="text"] { 
-            flex: 1; padding: 15px; background: #1a1210; 
+            flex: 1; padding: 15px; background: #120c0b; 
             border: 1px solid var(--purple-neon); color: white; 
             border-radius: 8px; outline: none;
         }
 
         .file-label {
-            cursor: pointer; font-size: 24px; padding: 5px 10px;
-            filter: drop-shadow(0 0 5px var(--purple-neon));
+            cursor: pointer; font-size: 24px;
+            transition: 0.3s;
         }
+        .file-label:hover { transform: scale(1.2); }
 
         button { 
             padding: 0 25px; height: 50px; background: var(--purple-neon); 
@@ -132,30 +135,32 @@
 <body>
 
     <div id="intro-overlay">
-        <div class="intro-text">INITIALIZING KBW...</div>
+        <div class="intro-text">SYNCING KBW SYSTEM...</div>
     </div>
 
     <div id="main-content">
-        <div class="header">KBW CONTROL PANEL</div>
+        <div class="header">KBW NETWORK</div>
 
         <div id="messages">
-            <div class="msg-card">
-                <span class="user-tag">KBW_ROOT</span>
-                نظام الدردشة متصل.. جاهز لاستقبال البيانات.
             </div>
-        </div>
 
         <div class="input-area">
             <label for="file-input" class="file-label">📸</label>
             <input type="file" id="file-input" accept="image/*">
-            <input type="text" id="chat-input" placeholder="اكتب رسالة أو ارفع صورة...">
+            <input type="text" id="chat-input" placeholder="ACCESS SYSTEM...">
             <button id="send-btn">SEND</button>
         </div>
     </div>
 
     <script>
-        // شاشة الدخول
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const messagesDiv = document.getElementById('messages');
+        const fileInput = document.getElementById('file-input');
+
+        // 1. تحميل الرسائل المخزنة عند فتح الصفحة
         window.onload = () => {
+            loadMessages();
             setTimeout(() => {
                 document.getElementById('intro-overlay').style.opacity = '0';
                 setTimeout(() => {
@@ -165,12 +170,8 @@
             }, 2000);
         };
 
-        const chatInput = document.getElementById('chat-input');
-        const sendBtn = document.getElementById('send-btn');
-        const messagesDiv = document.getElementById('messages');
-        const fileInput = document.getElementById('file-input');
-
-        function addMessage(content, type, isImage = false) {
+        // 2. وظيفة إضافة رسالة وحفظها
+        function addMessage(content, type, isImage = false, save = true) {
             const msgCard = document.createElement('div');
             msgCard.className = `msg-card ${type}`;
             
@@ -192,6 +193,29 @@
 
             messagesDiv.appendChild(msgCard);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            if (save) {
+                saveMessageLocal(content, type, isImage);
+            }
+        }
+
+        // 3. حفظ في ذاكرة المتصفح
+        function saveMessageLocal(content, type, isImage) {
+            let history = JSON.parse(localStorage.getItem('kbw_history')) || [];
+            history.push({content, type, isImage});
+            localStorage.setItem('kbw_history', JSON.stringify(history));
+        }
+
+        // 4. استرجاع التاريخ
+        function loadMessages() {
+            let history = JSON.parse(localStorage.getItem('kbw_history')) || [];
+            if (history.length === 0) {
+                addMessage("نظام KBW جاهز. (ملاحظة: الرسائل تحفظ على هذا الجهاز فقط)", 'root', false, false);
+            } else {
+                history.forEach(msg => {
+                    addMessage(msg.content, msg.type, msg.isImage, false);
+                });
+            }
         }
 
         sendBtn.onclick = () => {
