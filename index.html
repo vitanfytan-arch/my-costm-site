@@ -3,214 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COSTM HUB | Pro Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>KBW | NEURAL SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto+Mono:wght@300;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
-        /* نظام الألوان: غامق وفاتح (Neon Tech) */
         :root {
-            --bg-deep: #050a0e;
-            --bg-panel: #101820;
-            --accent-light: #00f2fe;
-            --accent-dim: #0088cc;
-            --text-main: #e0e0e0;
+            --primary: #00f2fe;
+            --secondary: #7000ff;
+            --bg-dark: #020508;
             --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 242, 254, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-deep);
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Roboto Mono', monospace;
             height: 100vh;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text-main);
-            overflow: hidden;
         }
 
-        /* اللوجو المتحرك COSTM */
-        .logo-header {
-            font-family: 'Orbitron';
-            font-size: 3.5rem;
-            color: var(--accent-light);
-            text-shadow: 0 0 20px var(--accent-light);
-            margin-bottom: 20px;
-            letter-spacing: 8px;
-            animation: glowPulse 2s infinite ease-in-out;
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        @keyframes glowPulse {
-            0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px var(--accent-light)); }
-            50% { opacity: 0.6; filter: drop-shadow(0 0 20px var(--accent-dim)); }
-        }
-
-        /* واجهة الدخول وإنشاء الحساب */
-        .auth-container {
-            background: var(--bg-panel);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--accent-dim);
-            width: 400px;
+        /* واجهة الدخول */
+        #login-screen {
+            position: relative;
+            z-index: 10;
             text-align: center;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            animation: fadeIn 1.5s ease;
         }
 
-        .auth-tabs { display: flex; margin-bottom: 25px; cursor: pointer; }
-        .tab { flex: 1; padding: 10px; border-bottom: 2px solid #333; transition: 0.3s; color: #666; font-family: 'Orbitron'; }
-        .tab.active { color: var(--accent-light); border-bottom: 2px solid var(--accent-light); }
+        .kbw-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.5));
+            transform: perspective(1000px) rotateX(10deg);
+            margin-bottom: 20px;
+        }
+
+        .system-box {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            width: 400px;
+        }
 
         input {
-            width: 100%; padding: 12px; margin: 10px 0;
-            background: rgba(255,255,255,0.05); border: 1px solid #333;
-            color: white; border-radius: 8px; outline: none;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
         }
 
-        .main-btn {
-            width: 100%; padding: 15px; margin-top: 15px;
-            background: linear-gradient(90deg, var(--accent-dim), var(--accent-light));
-            border: none; color: white; font-weight: bold; cursor: pointer;
-            border-radius: 10px; font-family: 'Orbitron'; transition: 0.3s;
+        input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+
+        .kbw-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            border: none;
+            color: white;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
         }
 
-        .main-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--accent-light); }
-
-        /* واجهة الشات الاحترافية */
-        #chat-interface {
-            display: none; width: 95%; max-width: 1100px; height: 90vh;
-            background: var(--bg-panel); border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.05); flex-direction: column; overflow: hidden;
+        .kbw-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px var(--secondary);
         }
 
-        .chat-top {
-            padding: 20px; background: rgba(255,255,255,0.02);
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #222;
+        /* واجهة النظام الرئيسية */
+        #main-system {
+            display: none;
+            width: 95%;
+            height: 90vh;
+            z-index: 20;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 20px;
+            animation: slideUp 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
         }
 
-        #chat-window {
-            flex: 1; padding: 25px; overflow-y: auto;
-            display: flex; flex-direction: column; gap: 15px;
-            background: radial-gradient(circle at top, #141e26, #050a0e);
+        .side-panel {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .msg-bubble {
-            max-width: 60%; padding: 12px 18px; border-radius: 18px;
-            font-size: 0.95rem; position: relative; animation: pop 0.3s ease;
+        .chat-area {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
 
-        .me { align-self: flex-end; background: var(--accent-dim); border-bottom-right-radius: 2px; }
-        .others { align-self: flex-start; background: #2c3e50; border-bottom-left-radius: 2px; }
-
-        .img-sent { max-width: 100%; border-radius: 10px; margin-top: 8px; display: block; }
-
-        .input-bar {
-            padding: 20px; background: #0d1218; display: flex; gap: 15px; align-items: center;
+        #messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        #text-input {
-            flex: 1; padding: 14px; background: #1a222a;
-            border: 1px solid #333; color: white; border-radius: 30px; outline: none;
+        .message-bubble {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            border-left: 4px solid var(--primary);
+            animation: popIn 0.3s ease;
         }
 
-        .file-btn { color: var(--accent-light); font-size: 1.5rem; cursor: pointer; }
+        .user-tag { color: var(--primary); font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; display: block; }
 
-        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .input-group {
+            padding: 20px;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            gap: 10px;
+        }
+
+        /* انيميشنات */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* شاشة الهاردوير الوهيمة */
+        .stat-card {
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 12px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .stat-val { font-size: 1.2rem; color: var(--primary); font-weight: bold; }
+
     </style>
 </head>
 <body>
 
-    <div id="auth-zone">
-        <div class="logo-header">COSTM</div>
-        <div class="auth-container">
-            <div class="auth-tabs">
-                <div class="tab active" onclick="setAuthMode('login')">LOGIN</div>
-                <div class="tab" onclick="setAuthMode('signup')">SIGN UP</div>
+    <div id="particles-js"></div>
+
+    <div id="login-screen">
+        <div class="kbw-logo">KBW</div>
+        <div class="system-box">
+            <p style="margin-bottom: 20px; font-size: 0.8rem; color: #888;">NEURAL NETWORK INITIALIZATION...</p>
+            <input type="text" id="userInput" placeholder="ACCESS IDENTITY">
+            <button class="kbw-btn" onclick="initializeSystem()">BOOT SYSTEM</button>
+        </div>
+    </div>
+
+    <div id="main-system">
+        <div class="side-panel">
+            <h3 style="font-family: 'Orbitron'; color: var(--primary);">STATUS</h3>
+            <div class="stat-card">
+                <div>CORE CPU</div>
+                <div class="stat-val" id="cpu-val">44%</div>
             </div>
-            <input type="text" id="user-field" placeholder="Username">
-            <input type="password" id="pass-field" placeholder="Password">
-            <button class="main-btn" onclick="handleAuth()">INITIALIZE</button>
-            <p id="status-msg" style="margin-top: 15px; font-size: 0.8rem;"></p>
+            <div class="stat-card">
+                <div>RAM USAGE</div>
+                <div class="stat-val">2.4 GB</div>
+            </div>
+            <div class="stat-card">
+                <div>REFLEX LATENCY</div>
+                <div class="stat-val">0.4ms</div>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div style="padding: 20px; background: var(--glass); font-family: 'Orbitron'; border-bottom: 1px solid var(--border);">
+                KBW MAIN TERMINAL <span style="float: right; font-size: 0.7rem; color: var(--primary);">● ONLINE</span>
+            </div>
+            <div id="messages"></div>
+            <div class="input-group">
+                <input type="text" id="msgInput" placeholder="TYPE COMMAND OR MESSAGE..." style="margin:0;">
+                <button class="kbw-btn" style="width: 120px; padding: 10px;" onclick="sendData()">SEND</button>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <h3 style="font-family: 'Orbitron'; color: var(--secondary);">NETWORK</h3>
+            <div style="font-size: 0.8rem; color: #666;">
+                Connected to Firebase RTD...<br>
+                Port: 443 (SSL)<br>
+                Location: Saudi Arabia
+            </div>
+            <div style="margin-top: auto;">
+                <button class="kbw-btn" style="background: #ff0055;" onclick="location.reload()">LOGOUT</button>
+            </div>
         </div>
     </div>
 
-    <div id="chat-interface">
-        <div class="chat-top">
-            <div style="font-family:'Orbitron'; color: var(--accent-light);">COSTM_CORE_v1.0</div>
-            <div id="display-name" style="font-weight: bold;"></div>
-        </div>
-        <div id="chat-window"></div>
-        <div class="input-bar">
-            <label class="file-btn">
-                ⊕ <input type="file" id="img-upload" hidden accept="image/*" onchange="sendImage(this)">
-            </label>
-            <input type="text" id="text-input" placeholder="Secure communication..." onkeypress="if(event.key==='Enter') sendText()">
-            <button class="main-btn" style="width: 100px; margin: 0;" onclick="sendText()">SEND</button>
-        </div>
-    </div>
+    <script type="module">
+        // استيراد Firebase من صورتك السابقة
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    <script>
-        let authMode = 'login';
-        let registeredUsers = JSON.parse(localStorage.getItem('costm_db')) || {};
+        const firebaseConfig = {
+            apiKey: "AIzaSyCStasVXz1XVpz16U-X0tscQQYI8CFkeRM",
+            authDomain: "costm-system.firebaseapp.com",
+            projectId: "costm-system",
+            storageBucket: "costm-system.firebasestorage.app",
+            messagingSenderId: "24126933645",
+            appId: "1:24126933645:web:e38b4a3456dd1e5d87b0c4",
+            databaseURL: "https://costm-system-default-rtdb.firebaseio.com/"
+        };
 
-        function setAuthMode(m) {
-            authMode = m;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-        }
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const chatRef = ref(db, 'kbw_chats');
 
-        function handleAuth() {
-            const u = document.getElementById('user-field').value;
-            const p = document.getElementById('pass-field').value;
-            const msg = document.getElementById('status-msg');
-
-            if(!u || !p) return;
-
-            if(authMode === 'signup') {
-                registeredUsers[u] = p;
-                localStorage.setItem('costm_db', JSON.stringify(registeredUsers));
-                msg.innerText = "Access Granted. You can login now.";
-                msg.style.color = "var(--accent-light)";
-            } else {
-                if(registeredUsers[u] === p) {
-                    launchHub(u);
-                } else {
-                    msg.innerText = "Invalid Credentials.";
-                    msg.style.color = "red";
-                }
+        // تشغيل النظام
+        window.initializeSystem = () => {
+            const name = document.getElementById('userInput').value;
+            if(name) {
+                localStorage.setItem('kbw_user', name);
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-system').style.display = 'grid';
+                initParticles();
             }
-        }
+        };
 
-        function launchHub(user) {
-            document.getElementById('auth-zone').style.display = 'none';
-            document.getElementById('chat-interface').style.display = 'flex';
-            document.getElementById('display-name').innerText = user.toUpperCase();
-        }
+        // إرسال البيانات
+        window.sendData = () => {
+            const text = document.getElementById('msgInput').value;
+            const user = localStorage.getItem('kbw_user');
+            if(text) {
+                push(chatRef, { user, text, timestamp: Date.now() });
+                document.getElementById('msgInput').value = "";
+            }
+        };
 
-        function sendText() {
-            const input = document.getElementById('text-input');
-            if(!input.value.trim()) return;
-            createBubble(input.value, 'text');
-            input.value = "";
-        }
+        // استقبال الرسائل لايف
+        onChildAdded(chatRef, (snapshot) => {
+            const data = snapshot.val();
+            const box = document.getElementById('messages');
+            box.innerHTML += `
+                <div class="message-bubble">
+                    <span class="user-tag">@${data.user}</span>
+                    ${data.text}
+                </div>
+            `;
+            box.scrollTop = box.scrollHeight;
+        });
 
-        function sendImage(input) {
-            const file = input.files[0];
-            if(!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => createBubble(e.target.result, 'image');
-            reader.readAsDataURL(file);
-        }
+        // تأثيرات الهاردوير (وهمية)
+        setInterval(() => {
+            const cpu = Math.floor(Math.random() * (48 - 40 + 1)) + 40;
+            document.getElementById('cpu-val').innerText = cpu + "%";
+        }, 3000);
 
-        function createBubble(content, type) {
-            const win = document.getElementById('chat-window');
-            const b = document.createElement('div');
-            b.className = 'msg-bubble me';
-            
-            if(type === 'text') b.innerText = content;
-            else b.innerHTML = `<img src="${content}" class="img-sent">`;
-            
-            win.appendChild(b);
-            win.scrollTop = win.scrollHeight;
+        // إعداد خلفية الجزيئات
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80 },
+                    "color": { "value": "#00f2fe" },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5 },
+                    "size": { "value": 3 },
+                    "line_linked": { "enable": true, "distance": 150, "color": "#00f2fe", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 2 }
+                },
+                "interactivity": {
+                    "events": { "onhover": { "enable": true, "mode": "repulse" } }
+                }
+            });
         }
     </script>
 </body>
