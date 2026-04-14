@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KBW | SECURE SYSTEM</title>
+    <title>KBW | CUSTOM CHAT</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -21,57 +21,7 @@
             overflow: hidden;
         }
 
-        /* --- شاشة الدخول (الأنيميشن) --- */
-        #intro-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark-brown);
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 1000;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .intro-text {
-            font-family: 'Orbitron';
-            font-size: 40px;
-            color: var(--blue-neon);
-            text-shadow: 0 0 20px var(--blue-neon);
-            letter-spacing: 10px;
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        .loading-bar {
-            width: 200px; height: 2px;
-            background: rgba(0, 210, 255, 0.2);
-            margin-top: 20px; position: relative;
-        }
-
-        .loading-bar::after {
-            content: '';
-            position: absolute; left: 0; top: 0;
-            height: 100%; width: 0%;
-            background: var(--blue-neon);
-            box-shadow: 0 0 10px var(--blue-neon);
-            animation: load 2.5s forwards;
-        }
-
-        @keyframes pulse {
-            from { opacity: 0.5; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1.05); }
-        }
-
-        @keyframes load {
-            to { width: 100%; }
-        }
-
-        /* --- واجهة الشات الرئيسية --- */
-        #main-content {
-            display: none; /* مخفي في البداية */
-            flex-direction: column;
-            height: 100vh;
-        }
-
+        /* أنيميشن الحركة الجانبية */
         @keyframes sway {
             0% { transform: translateX(0px); }
             50% { transform: translateX(8px); }
@@ -84,21 +34,25 @@
             text-align: center; font-family: 'Orbitron'; 
             color: var(--blue-neon); text-shadow: 0 0 10px var(--blue-neon);
             animation: sway 4s infinite ease-in-out;
+            z-index: 10;
         }
 
         #messages { 
             flex: 1; padding: 20px; overflow-y: auto; 
             display: flex; flex-direction: column; gap: 15px;
             background: rgba(0,0,0,0.2);
+            scroll-behavior: smooth;
         }
         
+        /* تصميم الرسالة */
         .msg-card { 
             background: rgba(255,255,255,0.05); padding: 12px; 
-            border-radius: 12px; max-width: 75%; 
+            border-radius: 12px; max-width: 80%; 
             border-right: 4px solid var(--blue-neon); 
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             align-self: flex-start;
             animation: sway 5s infinite ease-in-out;
+            word-wrap: break-word;
         }
         
         .my-msg {
@@ -108,111 +62,120 @@
         }
 
         .msg-card img {
-            max-width: 100%; border-radius: 8px; margin-top: 8px;
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 8px;
             border: 1px solid var(--blue-neon);
         }
 
+        .user-tag { display: block; font-family: 'Orbitron'; font-size: 10px; color: var(--blue-neon); margin-bottom: 5px; }
+
+        /* منطقة الإدخال */
         .input-area { 
-            padding: 20px; background: var(--dark-brown); 
+            padding: 15px; background: var(--dark-brown); 
             display: flex; gap: 10px; border-top: 2px solid var(--blue-neon);
             align-items: center;
         }
 
         input[type="text"] { 
-            flex: 1; padding: 15px; background: #1a1210; 
+            flex: 1; padding: 12px; background: #1a1210; 
             border: 1px solid #5d4037; color: var(--blue-neon); 
-            border-radius: 8px; outline: none;
+            border-radius: 8px; outline: none; font-size: 16px;
         }
 
+        /* زر رفع الصور */
         .file-label {
-            cursor: pointer; padding: 12px;
+            cursor: pointer; padding: 10px;
             background: rgba(255,255,255,0.1);
             border-radius: 8px; color: var(--blue-neon);
+            transition: 0.3s;
         }
+        .file-label:hover { background: var(--blue-neon); color: black; }
 
         button { 
-            padding: 0 30px; height: 50px; background: var(--blue-neon); 
+            padding: 12px 25px; background: var(--blue-neon); 
             border: none; color: black; border-radius: 8px; 
             font-weight: bold; cursor: pointer; font-family: 'Orbitron';
+            transition: 0.3s;
         }
+        button:hover { background: #fff; box-shadow: 0 0 15px var(--blue-neon); }
         
         #file-input { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div class="intro-text">KBW SYSTEM</div>
-        <div class="loading-bar"></div>
+    <div class="header">SYSTEM - KBW CHAT</div>
+
+    <div id="messages">
+        <div class="msg-card">
+            <span class="user-tag">SYSTEM</span>
+            مرحباً بك في نظام KBW. يمكنك إرسال النصوص والصور الآن.
+        </div>
     </div>
 
-    <div id="main-content">
-        <div class="header">SYSTEM - KBW CHAT</div>
-
-        <div id="messages">
-            <div class="msg-card">
-                <span style="font-family:'Orbitron'; font-size:10px; color:var(--blue-neon);">SYSTEM</span><br>
-                تم الاتصال بنجاح. مرحباً بك في KBW.
-            </div>
-        </div>
-
-        <div class="input-area">
-            <label for="file-input" class="file-label">🖼️</label>
-            <input type="file" id="file-input" accept="image/*">
-            <input type="text" id="chat-input" placeholder="أدخل البيانات...">
-            <button id="send-btn">SEND</button>
-        </div>
+    <div class="input-area">
+        <label for="file-input" class="file-label">📎</label>
+        <input type="file" id="file-input" accept="image/*">
+        
+        <input type="text" id="chat-input" placeholder="اكتب رسالتك هنا...">
+        
+        <button onclick="sendMessage()">SEND</button>
     </div>
 
     <script>
-        // أنيميشن الدخول
-        window.onload = () => {
-            setTimeout(() => {
-                const overlay = document.getElementById('intro-overlay');
-                const main = document.getElementById('main-content');
-                
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    main.style.display = 'flex';
-                }, 1000);
-            }, 3000); // 3 ثوانٍ مدة التحميل
-        };
-
-        // نظام الرسائل (نفس السابق)
         const chatInput = document.getElementById('chat-input');
-        const sendBtn = document.getElementById('send-btn');
         const messagesDiv = document.getElementById('messages');
         const fileInput = document.getElementById('file-input');
 
-        function addMessage(content, className, isImage = false) {
-            const msgCard = document.createElement('div');
-            msgCard.className = `msg-card ${className}`;
-            if (isImage) {
-                const img = document.createElement('img');
-                img.src = content;
-                msgCard.appendChild(img);
-            } else {
-                msgCard.innerText = content;
+        // وظيفة إرسال الرسالة
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (text !== "") {
+                createMessage(text, 'my-msg');
+                chatInput.value = "";
             }
-            messagesDiv.appendChild(msgCard);
+        }
+
+        // إنشاء عنصر الرسالة في الشاشة
+        function createMessage(content, type, isImage = false) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg-card');
+            if (type === 'my-msg') msgDiv.classList.add('my-msg');
+
+            let innerHTML = `<span class="user-tag">${type === 'my-msg' ? 'YOU' : 'KBW'}</span>`;
+            
+            if (isImage) {
+                innerHTML += `<img src="${content}" />`;
+            } else {
+                innerHTML += `<div>${content}</div>`;
+            }
+
+            msgDiv.innerHTML = innerHTML;
+            messagesDiv.appendChild(msgDiv);
+            
+            // سكرول تلقائي للأسفل
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
-        sendBtn.onclick = () => {
-            if (chatInput.value.trim() !== "") {
-                addMessage(chatInput.value, 'my-msg');
-                chatInput.value = "";
+        // التعامل مع رفع الصور
+        fileInput.onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    createMessage(event.target.result, 'my-msg', true);
+                };
+                reader.readAsDataURL(file);
             }
         };
 
-        chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendBtn.click(); };
-
-        fileInput.onchange = function() {
-            const reader = new FileReader();
-            reader.onload = (e) => addMessage(e.target.result, 'my-msg', true);
-            reader.readAsDataURL(this.files[0]);
-        };
+        // دعم زر Enter من الكيبورد
+        chatInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
     </script>
 </body>
 </html>
