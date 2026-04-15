@@ -3,169 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مذكراتي اليومية | My Journal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>صفحتي الأولى</title>
     <style>
-        :root {
-            --paper: #fdf6e3;
-            --ink: #5d4037;
-            --accent: #8d6e63;
-        }
-
+        /* هنا نضع لمسات الجمال (CSS) */
         body {
-            background-color: #e0e0e0;
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .card {
+            background: white;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: inline-block;
         }
-
-        /* حاوية المذكرات التي تظهر فيها الكتابة */
-        #journal-container {
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 200px; /* مساحة عشان الخانات اللي تحت ما تغطي الكلام */
-        }
-
-        .entry-card {
-            background: var(--paper);
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border-right: 5px solid var(--accent);
-            position: relative;
-        }
-
-        .entry-card h2 {
-            margin: 0 0 10px 0;
-            color: var(--ink);
-            font-family: 'Amiri', serif;
-            font-size: 22px;
-        }
-
-        .entry-card p {
-            margin: 0;
-            line-height: 1.6;
-            color: #444;
-        }
-
-        .entry-date {
-            font-size: 11px;
-            color: #999;
-            display: block;
-            margin-top: 10px;
-        }
-
-        /* منطقة الكتابة في الأسفل */
-        .input-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .input-group {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        input, textarea {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Cairo';
-            outline: none;
-        }
-
-        textarea { resize: none; height: 80px; }
-
         button {
-            background: var(--ink);
+            background-color: #007bff;
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-            font-family: 'Cairo';
-            transition: 0.3s;
         }
-
-        button:hover { background: #3e2723; }
     </style>
 </head>
 <body>
 
-    <div id="journal-container">
-        </div>
-
-    <div class="input-footer">
-        <div class="input-group">
-            <input type="text" id="entry-title" placeholder="عنوان اليوم (مثلاً: يوم جميل في أبها)">
-            <textarea id="entry-content" placeholder="ماذا حدث اليوم؟ اكتب تفاصيلك هنا..."></textarea>
-            <button id="add-entry">حفظ في المذكرات</button>
-        </div>
+    <div class="card">
+        <h1>مرحباً بك في عالم البرمجة! 🚀</h1>
+        <p>هذه أول صفحة ويب أقوم بإنشائها باستخدام HTML.</p>
+        <button onclick="greet()">اضغط هنا</button>
     </div>
 
-<script>
-    const titleInput = document.getElementById('entry-title');
-    const contentInput = document.getElementById('entry-content');
-    const addBtn = document.getElementById('add-entry');
-    const container = document.getElementById('journal-container');
-
-    // تحميل البيانات المحفوظة
-    let journal = JSON.parse(localStorage.getItem('my_journal')) || [];
-
-    function renderJournal() {
-        container.innerHTML = '';
-        journal.forEach((item) => {
-            const card = document.createElement('div');
-            card.className = 'entry-card';
-            card.innerHTML = `
-                <h2>${item.title}</h2>
-                <p>${item.content}</p>
-                <span class="entry-date">${item.date}</span>
-            `;
-            container.prepend(card); // الجديد يظهر فوق
-        });
-        localStorage.setItem('my_journal', JSON.stringify(journal));
-    }
-
-    addBtn.onclick = () => {
-        const title = titleInput.value.trim();
-        const content = contentInput.value.trim();
-        
-        if (title && content) {
-            const date = new Date().toLocaleString('ar-SA');
-            journal.push({ title, content, date });
-            
-            // مسح الخانات بعد الإضافة
-            titleInput.value = '';
-            contentInput.value = '';
-            
-            renderJournal();
-            // سكرول لأعلى عشان نشوف اللي انضاف
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            alert("فضلاً املأ العنوان والتفاصيل");
+    <script>
+        // هنا نضع التفاعل (JavaScript)
+        function greet() {
+            alert("أهلاً بك! أنت الآن مبرمج ويب مبتدئ.");
         }
-    };
-
-    renderJournal();
-</script>
+    </script>
 
 </body>
 </html>
