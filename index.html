@@ -1,48 +1,299 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحتي الأولى</title>
+    <title>KBW - الدردشة الرسمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* هنا نضع لمسات الجمال (CSS) */
+        :root {
+            --bg-color: #050505;
+            --card-color: #121212;
+            --accent-color: #0084ff;
+            --owner-color: #ffd700;
+            --admin-color: #ff3131;
+            --text-color: #e0e0e0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* شاشة الدخول */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .login-box {
+            background: var(--card-color);
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            padding: 50px;
+            width: 85%;
+            max-width: 400px;
+            border: 1px solid #222;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: inline-block;
+
+        .login-box h1 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 35px;
+            letter-spacing: 5px;
         }
-        button {
-            background-color: #007bff;
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: #1a1a1a;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+            box-sizing: border-box;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
         }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #006cdb;
+            transform: translateY(-2px);
+        }
+
+        /* واجهة الشات */
+        header {
+            background: var(--card-color);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); }
+
+        #chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: radial-gradient(circle at center, #111 0%, #050505 100%);
+        }
+
+        /* فقاعات الرسائل */
+        .msg-block {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            position: relative;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .received { align-self: flex-start; background: #222; border: 1px solid #333; border-bottom-left-radius: 2px; }
+        .sent { align-self: flex-end; background: var(--accent-color); color: white; border-bottom-right-radius: 2px; }
+
+        .sender-info {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        /* الرتب */
+        .badge {
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            color: black;
+            font-weight: bold;
+        }
+        .badge-owner { background: var(--owner-color); }
+        .badge-admin { background: var(--admin-color); color: white; }
+
+        /* منطقة الإرسال */
+        .input-bar {
+            background: var(--card-color);
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #222;
+        }
+
+        #message-input { flex: 1; margin: 0; text-align: right; }
+        .send-icon { width: auto; padding: 0 25px; }
+
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>مرحباً بك في عالم البرمجة! 🚀</h1>
-        <p>هذه أول صفحة ويب أقوم بإنشائها باستخدام HTML.</p>
-        <button onclick="greet()">اضغط هنا</button>
+    <!-- شاشة طلب الاسم -->
+    <div id="login-overlay">
+        <div class="login-box">
+            <h1>KBW</h1>
+            <p style="opacity: 0.7;">أهلاً بك، أدخل اسمك المستعار للبدء</p>
+            <input type="text" id="nickname-input" placeholder="اسمك هنا..." maxlength="15">
+            <button class="btn-primary" onclick="enterChat()">دخول الدردشة</button>
+        </div>
     </div>
 
-    <script>
-        // هنا نضع التفاعل (JavaScript)
-        function greet() {
-            alert("أهلاً بك! أنت الآن مبرمج ويب مبتدئ.");
-        }
-    </script>
+    <!-- الهيدر -->
+    <header>
+        <div class="logo">KBW MESSENGER</div>
+        <div style="font-size: 12px; color: #4caf50;">● متصل الآن</div>
+    </header>
 
+    <!-- منطقة الرسائل -->
+    <div id="chat-window">
+        <!-- الرسائل ستظهر هنا برمجياً -->
+    </div>
+
+    <!-- منطقة الكتابة -->
+    <div class="input-bar">
+        <input type="text" id="message-input" placeholder="اكتب رسالة...">
+        <button class="btn-primary send-icon" onclick="sendChatMessage()">إرسال</button>
+    </div>
+
+    <!-- مكتبات Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // إعدادات مشروعك المستخرجة من الصور (costm-system)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCStasVxz1XVpz16U-X0tscQQYI8CFkErM",
+            authDomain: "costm-system.firebaseapp.com",
+            projectId: "costm-system",
+            storageBucket: "costm-system.firebasestorage.app",
+            messagingSenderId: "24126933645",
+            appId: "1:24126933645:web:e38b4a3456dd1e5d87b0c4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUserNickname = localStorage.getItem('kbw_user_name') || "";
+
+        // وظيفة الدخول
+        window.enterChat = async () => {
+            const nick = document.getElementById('nickname-input').value.trim();
+            if (nick.length < 2) return alert("الاسم قصير جداً!");
+
+            try {
+                await signInAnonymously(auth);
+                currentUserNickname = nick;
+                localStorage.setItem('kbw_user_name', nick);
+                document.getElementById('login-overlay').style.display = 'none';
+            } catch (err) {
+                console.error(err);
+                alert("خطأ في الاتصال بقاعدة البيانات. تأكد من تفعيل Anonymous Auth");
+            }
+        };
+
+        // وظيفة إرسال الرسالة
+        window.sendChatMessage = async () => {
+            const input = document.getElementById('message-input');
+            const msgText = input.value.trim();
+            
+            if (msgText && auth.currentUser) {
+                try {
+                    await addDoc(collection(db, "messages"), {
+                        text: msgText,
+                        sender: currentUserNickname,
+                        userId: auth.currentUser.uid,
+                        timestamp: serverTimestamp()
+                    });
+                    input.value = "";
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            }
+        };
+
+        // استلام الرسائل وعرضها بشكل حي (Real-time)
+        const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+        onSnapshot(q, (snapshot) => {
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.innerHTML = "";
+            
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                if (!data.timestamp) return;
+
+                const isMe = auth.currentUser && data.userId === auth.currentUser.uid;
+                
+                // تحديد الرتب بناءً على الاسم (يمكنك تغييرها)
+                let badgeHTML = "";
+                if (data.sender === "مطور" || data.sender === "KBW" || data.sender === "المبرمج") {
+                    badgeHTML = `<span class="badge badge-owner">OWNER</span>`;
+                } else if (data.sender === "مشرف") {
+                    badgeHTML = `<span class="badge badge-admin">ADMIN</span>`;
+                }
+
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `msg-block ${isMe ? 'sent' : 'received'}`;
+                msgDiv.innerHTML = `
+                    <span class="sender-info">${badgeHTML} ${data.sender}</span>
+                    <div>${data.text}</div>
+                `;
+                chatWindow.appendChild(msgDiv);
+            });
+            
+            // التمرير لأسفل تلقائياً
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        });
+
+        // التحقق إذا كان المستخدم مسجل دخول سابقاً
+        onAuthStateChanged(auth, (user) => {
+            if (user && currentUserNickname) {
+                document.getElementById('login-overlay').style.display = 'none';
+            }
+        });
+
+        // دعم الإرسال عبر زر Enter
+        document.getElementById('message-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') window.sendChatMessage();
+        });
+
+    </script>
 </body>
 </html>
+
+```
