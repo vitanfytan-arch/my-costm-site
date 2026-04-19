@@ -3,186 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KBW Chat Login</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<title>موقعي الاحترافي</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<meta name="description" content="مطور مواقع يقدم تصميم مواقع احترافية متجاوبة وسريعة">
+<meta name="keywords" content="تصميم مواقع, برمجة, تطوير ويب">
 
 <style>
-body{
+
+/* RESET */
+*{
 margin:0;
-font-family:'Cairo';
-background:#050505;
+padding:0;
+box-sizing:border-box;
+font-family:"Tajawal", sans-serif;
+}
+body{
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:#fff;
-display:flex;
-flex-direction:column;
-height:100vh;
+overflow-x:hidden;
 }
 
-/* شاشة الدخول */
-#authBox{
+/* LOADER */
+#loader{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#050505;
+width:100%;
+height:100%;
+background:#0f2027;
 display:flex;
 justify-content:center;
 align-items:center;
+z-index:9999;
+}
+.spinner{
+width:50px;
+height:50px;
+border:5px solid #fff;
+border-top:5px solid #00c3ff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+@keyframes spin{
+100%{transform:rotate(360deg);}
 }
 
-.box{
-background:#111;
-padding:25px;
-border-radius:15px;
-width:300px;
+/* GLOBAL */
+.container{
+width:85%;
+margin:auto;
+}
+section{
+padding:80px 0;
+}
+h2.section-title{
 text-align:center;
+font-size:32px;
+margin-bottom:40px;
 }
 
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:none;
-border-radius:10px;
-background:#1a1a1a;
-color:white;
+/* GLASS */
+.glass{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:15px;
+border:1px solid rgba(255,255,255,0.15);
 }
 
-button{
+/* HEADER */
+header{
+position:fixed;
 width:100%;
-padding:10px;
-margin-top:10px;
+z-index:1000;
+padding:10px 0;
+}
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 7%;
+}
+nav .logo{
+font-size:26px;
+font-weight:bold;
+}
+nav ul{
+display:flex;
+gap:25px;
+list-style:none;
+}
+nav a{
+color:#fff;
+text-decoration:none;
+transition:.3s;
+}
+nav a:hover{
+color:#00c3ff;
+}
+
+/* MOBILE */
+.menu-btn{
+display:none;
+font-size:26px;
+cursor:pointer;
+}
+@media(max-width:768px){
+nav ul{
+display:none;
+flex-direction:column;
+background:rgba(0,0,0,0.6);
+padding:20px;
+position:absolute;
+top:60px;
+right:20px;
+}
+nav ul.active{display:flex;}
+.menu-btn{display:block;}
+}
+
+/* HERO */
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:url('https://images.unsplash.com/photo-1522199710521-72d69614c702') center/cover;
+position:relative;
+}
+.hero::after{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,0.6);
+}
+.hero-content{
+position:relative;
+z-index:2;
+}
+.btn{
+padding:12px 28px;
+background:#00c3ff;
 border:none;
 border-radius:10px;
-background:#0084ff;
-color:white;
+color:#fff;
 cursor:pointer;
 }
 
-/* الشات */
-#chatUI{
-display:none;
-flex-direction:column;
-height:100vh;
+/* CARDS HOVER */
+.service-box:hover,
+.price-card:hover,
+.testimonial:hover{
+transform:translateY(-10px) scale(1.02);
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-#chat{
-flex:1;
-overflow-y:auto;
+/* GRID */
+.services,.pricing,.testimonials{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:20px;
+}
+
+/* CONTACT */
+.contact-wrapper{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+@media(max-width:900px){
+.contact-wrapper{grid-template-columns:1fr;}
+}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;
+bottom:20px;
+left:20px;
+background:#25D366;
+padding:15px;
+border-radius:50%;
+color:#fff;
+}
+
+/* TOP BTN */
+#topBtn{
+position:fixed;
+bottom:80px;
+right:20px;
 padding:10px;
-display:flex;
-flex-direction:column;
-gap:10px;
+border:none;
+border-radius:10px;
+background:#00c3ff;
+color:#fff;
+display:none;
 }
 
-.msg{padding:10px;border-radius:10px;max-width:70%;}
-.me{background:#0084ff;align-self:flex-end;}
-.other{background:#222;}
-
-.input{display:flex;padding:10px;background:#111;}
 </style>
 </head>
 
 <body>
 
-<!-- تسجيل -->
-<div id="authBox">
-<div class="box">
-<h2>KBW</h2>
+<!-- LOADER -->
+<div id="loader"><div class="spinner"></div></div>
 
-<input id="email" placeholder="الإيميل">
-<input id="password" type="password" placeholder="كلمة المرور">
+<header class="glass">
+<nav>
+<div class="logo">💎 موقعي</div>
 
-<button onclick="login()">تسجيل دخول</button>
-<button onclick="register()">إنشاء حساب</button>
+<ul id="menu">
+<li><a href="#hero">الرئيسية</a></li>
+<li><a href="#about">من أنا</a></li>
+<li><a href="#services">الخدمات</a></li>
+<li><a href="#contact">تواصل</a></li>
+</ul>
 
-</div>
-</div>
-
-<!-- الشات -->
-<div id="chatUI">
-<div id="chat"></div>
-
-<div class="input">
-<input id="msg" placeholder="اكتب..." />
-<button onclick="send()">إرسال</button>
-</div>
+<div class="menu-btn" onclick="toggleMenu()">
+<i class="fa fa-bars"></i>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+</nav>
+</header>
 
-const firebaseConfig = {
-apiKey: "AIzaSyCStasVxz1XVpz16U-X0tscQQYI8CFkErM",
-authDomain: "costm-system.firebaseapp.com",
-projectId: "costm-system"
-};
+<section class="hero" id="hero">
+<div class="hero-content">
+<h1 id="typing"></h1>
+<p>تصميم احترافي متجاوب</p>
+<button class="btn" onclick="scrollToSection('about')">ابدأ</button>
+</div>
+</section>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+<section id="about">
+<h2 class="section-title">من أنا</h2>
+<div class="container glass" style="padding:30px;text-align:center;">
+<p>مطور مواقع محترف أصمم مواقع حديثة وسريعة.</p>
+</div>
+</section>
 
-// تسجيل دخول
-window.login = async ()=>{
-try{
-await signInWithEmailAndPassword(auth, email.value, password.value);
-}catch(e){
-alert("خطأ تسجيل دخول");
-}
-};
+<section id="services">
+<h2 class="section-title">الخدمات</h2>
+<div class="container services">
 
-// إنشاء حساب
-window.register = async ()=>{
-try{
-await createUserWithEmailAndPassword(auth, email.value, password.value);
-alert("تم إنشاء الحساب ✅");
-}catch(e){
-alert("خطأ: "+e.message);
-}
-};
+<div class="service-box glass" style="padding:20px;text-align:center;">
+<h3>تصميم مواقع</h3>
+</div>
 
-// عند تسجيل الدخول
-onAuthStateChanged(auth,(user)=>{
-if(user){
-authBox.style.display="none";
-chatUI.style.display="flex";
-startChat();
-}
+<div class="service-box glass" style="padding:20px;text-align:center;">
+<h3>برمجة</h3>
+</div>
+
+</div>
+</section>
+
+<section id="contact">
+<h2 class="section-title">تواصل</h2>
+<div class="container contact-wrapper">
+
+<form action="https://formsubmit.co/example@mail.com" method="POST" class="glass" style="padding:20px;">
+<input type="text" placeholder="اسمك" required><br><br>
+<input type="email" placeholder="بريدك" required><br><br>
+<textarea placeholder="رسالتك"></textarea><br><br>
+<button class="btn">إرسال</button>
+</form>
+
+<div class="glass" style="padding:20px;">
+<p>email@example.com</p>
+</div>
+
+</div>
+</section>
+
+<footer style="text-align:center;padding:20px;">
+© 2026
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/966500000000" target="_blank" class="whatsapp">
+<i class="fa fa-whatsapp"></i>
+</a>
+
+<!-- TOP -->
+<button id="topBtn">↑</button>
+
+<script>
+
+/* LOADER */
+window.addEventListener("load", ()=>{
+document.getElementById("loader").style.display="none";
 });
 
-// إرسال
-window.send = async ()=>{
-if(!msg.value) return;
+/* MENU */
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
 
-await addDoc(collection(db,"messages"),{
-text: msg.value,
-uid: auth.currentUser.uid,
-time: serverTimestamp()
+/* SCROLL */
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+/* TYPING */
+const text="موقع احترافي 🔥";
+let i=0;
+function type(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;
+setTimeout(type,50);
+}
+}
+type();
+
+/* TOP BUTTON */
+const topBtn=document.getElementById("topBtn");
+window.addEventListener("scroll",()=>{
+if(window.scrollY>300){
+topBtn.style.display="block";
+}else{
+topBtn.style.display="none";
+}
 });
-
-msg.value="";
+topBtn.onclick=()=>{
+window.scrollTo({top:0,behavior:"smooth"});
 };
 
-// استقبال
-function startChat(){
-const q = query(collection(db,"messages"), orderBy("time"));
-
-onSnapshot(q,(snap)=>{
-chat.innerHTML="";
-snap.forEach(doc=>{
-const d = doc.data();
-
-const div = document.createElement("div");
-div.className = "msg " + (d.uid===auth.currentUser.uid ? "me":"other");
-div.innerText = d.text;
-
-chat.appendChild(div);
-});
-
-chat.scrollTop = chat.scrollHeight;
-});
-}
 </script>
 
 </body>
