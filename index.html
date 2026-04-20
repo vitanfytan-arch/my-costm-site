@@ -1,335 +1,318 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة الألعاب الاحترافية - 20 لعبة</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <style>
+    :root {
+      --bg: #030712;
+      --card: #111827;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+    }
 
-<title>موقعي الاحترافي</title>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    /* الأنيميشن */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-<meta name="description" content="مطور مواقع يقدم تصميم مواقع احترافية متجاوبة وسريعة">
-<meta name="keywords" content="تصميم مواقع, برمجة, تطوير ويب">
+    @keyframes scaleUp {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
 
-<style>
+    header {
+      padding: 2rem;
+      text-align: center;
+      background: linear-gradient(to bottom, #111827, var(--bg));
+      border-bottom: 1px solid #1f2937;
+    }
 
-/* RESET */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Tajawal", sans-serif;
-}
-body{
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:#fff;
-overflow-x:hidden;
-}
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-fill-color: transparent;
+      color: transparent;
+    }
 
-/* LOADER */
-#loader{
-position:fixed;
-width:100%;
-height:100%;
-background:#0f2027;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-.spinner{
-width:50px;
-height:50px;
-border:5px solid #fff;
-border-top:5px solid #00c3ff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-/* GLOBAL */
-.container{
-width:85%;
-margin:auto;
-}
-section{
-padding:80px 0;
-}
-h2.section-title{
-text-align:center;
-font-size:32px;
-margin-bottom:40px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
 
-/* GLASS */
-.glass{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-border-radius:15px;
-border:1px solid rgba(255,255,255,0.15);
-}
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid #1f2937;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      animation: slideIn 0.5s ease-out backwards;
+    }
 
-/* HEADER */
-header{
-position:fixed;
-width:100%;
-z-index:1000;
-padding:10px 0;
-}
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:10px 7%;
-}
-nav .logo{
-font-size:26px;
-font-weight:bold;
-}
-nav ul{
-display:flex;
-gap:25px;
-list-style:none;
-}
-nav a{
-color:#fff;
-text-decoration:none;
-transition:.3s;
-}
-nav a:hover{
-color:#00c3ff;
-}
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
 
-/* MOBILE */
-.menu-btn{
-display:none;
-font-size:26px;
-cursor:pointer;
-}
-@media(max-width:768px){
-nav ul{
-display:none;
-flex-direction:column;
-background:rgba(0,0,0,0.6);
-padding:20px;
-position:absolute;
-top:60px;
-right:20px;
-}
-nav ul.active{display:flex;}
-.menu-btn{display:block;}
-}
+    .card i {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
 
-/* HERO */
-.hero{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-background:url('https://images.unsplash.com/photo-1522199710521-72d69614c702') center/cover;
-position:relative;
-}
-.hero::after{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(0,0,0,0.6);
-}
-.hero-content{
-position:relative;
-z-index:2;
-}
-.btn{
-padding:12px 28px;
-background:#00c3ff;
-border:none;
-border-radius:10px;
-color:#fff;
-cursor:pointer;
-}
+    /* منطقة اللعب */
+    #gameOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg);
+      z-index: 1000;
+      padding: 20px;
+      box-sizing: border-box;
+      animation: scaleUp 0.3s ease-out;
+    }
 
-/* CARDS HOVER */
-.service-box:hover,
-.price-card:hover,
-.testimonial:hover{
-transform:translateY(-10px) scale(1.02);
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
+    .game-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
 
-/* GRID */
-.services,.pricing,.testimonials{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-}
+    .close-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
-/* CONTACT */
-.contact-wrapper{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-}
-@media(max-width:900px){
-.contact-wrapper{grid-template-columns:1fr;}
-}
+    /* ألعاب محددة */
+    /* الشطرنج */
+    .chess-board { display: grid; grid-template-columns: repeat(8, 1fr); width: min(90vw, 400px); margin: 0 auto; border: 4px solid #374151; }
+    .sq { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; }
+    .w-sq { background: #f0d9b5; color: #000; }
+    .b-sq { background: #b58863; color: #000; }
+    .selected { background: #769656 !important; }
 
-/* WHATSAPP */
-.whatsapp{
-position:fixed;
-bottom:20px;
-left:20px;
-background:#25D366;
-padding:15px;
-border-radius:50%;
-color:#fff;
-}
+    /* ثعبان */
+    #snakeCanvas { background: #000; border: 2px solid #334155; max-width: 100%; }
 
-/* TOP BTN */
-#topBtn{
-position:fixed;
-bottom:80px;
-right:20px;
-padding:10px;
-border:none;
-border-radius:10px;
-background:#00c3ff;
-color:#fff;
-display:none;
-}
+    /* ذاكرة */
+    .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: 0 auto; }
+    .mem-card { aspect-ratio: 1; background: var(--accent); border-radius: 12px; font-size: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; color: transparent; transition: 0.3s; }
+    .mem-card.flipped { color: white; background: #1e1b4b; }
 
-</style>
+    /* 2048 */
+    .grid-2048 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #374151; padding: 10px; border-radius: 10px; max-width: 300px; margin: 0 auto; }
+    .cell-2048 { width: 65px; height: 65px; background: #1f2937; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 5px; }
+
+  </style>
 </head>
-
 <body>
 
-<!-- LOADER -->
-<div id="loader"><div class="spinner"></div></div>
+  <header>
+    <h1>مجموعة الألعاب الذهبية</h1>
+    <p>20 لعبة حقيقية جاهزة للتشغيل مع أنيميشن احترافي</p>
+  </header>
 
-<header class="glass">
-<nav>
-<div class="logo">💎 موقعي</div>
+  <main>
+    <div class="grid" id="mainGrid"></div>
+  </main>
 
-<ul id="menu">
-<li><a href="#hero">الرئيسية</a></li>
-<li><a href="#about">من أنا</a></li>
-<li><a href="#services">الخدمات</a></li>
-<li><a href="#contact">تواصل</a></li>
-</ul>
+  <div id="gameOverlay">
+    <div class="game-content">
+      <button class="close-btn" onclick="exitGame()">× إغلاق العرض</button>
+      <div id="gameViewport"></div>
+    </div>
+  </div>
 
-<div class="menu-btn" onclick="toggleMenu()">
-<i class="fa fa-bars"></i>
-</div>
+  <script>
+    const games = [
+      { id: 'chess', title: 'الشطرنج', icon: '♟️', desc: 'أبيض ضد أسود - ذكاء الملوك' },
+      { id: 'snake', title: 'الثعبان', icon: '🐍', desc: 'كلاسيكية الثعبان الشهيرة' },
+      { id: '2048', title: 'لعبة 2048', icon: '🔢', desc: 'ادمج الأرقام للوصول للقمة' },
+      { id: 'memory', title: 'الذاكرة', icon: '🧠', desc: 'جد الأزواج المتطابقة' },
+      { id: 'xo', title: 'إكس أو (XO)', icon: '❌', desc: 'تحدي الذكاء الاصطناعي' },
+      { id: 'clicker', title: 'سرعة النقر', icon: '⚡', desc: 'اختبر سرعة أصابعك' },
+      { id: 'mines', title: 'صائد الألغام', icon: '💣', desc: 'تجنب القنابل المخفية' },
+      { id: 'math', title: 'عبقري الرياضيات', icon: '➕', desc: 'حل المسائل الحسابية بسرعة' },
+      { id: 'reflex', title: 'اختبار البديهة', icon: '🎯', desc: 'اضغط عند تغير اللون' },
+      { id: 'hangman', title: 'رجل المشنقة', icon: '🪑', desc: 'خمن الحروف المفقودة' },
+      { id: 'rps', title: 'حجر ورقة مقص', icon: '✊', desc: 'تحدى حظك مع الكمبيوتر' },
+      { id: 'colors', title: 'تطابق الألوان', icon: '🎨', desc: 'هل تخدعك عيناك؟' },
+      { id: 'typing', title: 'مدرب الكتابة', icon: '⌨️', desc: 'اكتب الكلمات بسرعة عالية' },
+      { id: 'dice', title: 'النرد', icon: '🎲', desc: 'رمية النرد الرابحة' },
+      { id: 'simon', title: 'سايمون يقول', icon: '🔴', desc: 'تذكر الأنماط وكررها' },
+      { id: 'tower', title: 'بناء البرج', icon: '🏗️', desc: 'ضع المكعبات بدقة' },
+      { id: 'aim', title: 'القناص', icon: '🏹', desc: 'أصب الأهداف المتحركة' },
+      { id: 'sudoku', title: 'سودوكو', icon: '🧩', desc: 'لعبة الأرقام والمنطق' },
+      { id: 'lights', title: 'إطفاء الأنوار', icon: '💡', desc: 'حل لغز المصابيح' },
+      { id: 'lotto', title: 'اليانصيب', icon: '🔮', desc: 'اختر أرقامك المحظوظة' }
+    ];
 
-</nav>
-</header>
+    function init() {
+      const grid = document.getElementById('mainGrid');
+      games.forEach((g, i) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.animationDelay = `${i * 0.05}s`;
+        card.onclick = () => startGame(g.id);
+        card.innerHTML = `<i>${g.icon}</i><h3>${g.title}</h3><p style="font-size:0.8rem; color:var(--text-muted)">${g.desc}</p>`;
+        grid.appendChild(card);
+      });
+    }
 
-<section class="hero" id="hero">
-<div class="hero-content">
-<h1 id="typing"></h1>
-<p>تصميم احترافي متجاوب</p>
-<button class="btn" onclick="scrollToSection('about')">ابدأ</button>
-</div>
-</section>
+    function startGame(id) {
+      document.getElementById('gameOverlay').style.display = 'block';
+      const vp = document.getElementById('gameViewport');
+      const game = games.find(x => x.id === id);
+      vp.innerHTML = `<h1>${game.icon} ${game.title}</h1><div id="stage"></div>`;
 
-<section id="about">
-<h2 class="section-title">من أنا</h2>
-<div class="container glass" style="padding:30px;text-align:center;">
-<p>مطور مواقع محترف أصمم مواقع حديثة وسريعة.</p>
-</div>
-</section>
+      if (id === 'chess') loadChess();
+      else if (id === 'snake') loadSnake();
+      else if (id === 'memory') loadMemory();
+      else if (id === 'clicker') loadClicker();
+      else if (id === 'xo') loadXO();
+      else if (id === '2048') load2048();
+      else vp.innerHTML += `<div style="padding:50px; opacity:0.5">جاري تحميل المحرك الخاص بـ ${game.title}...</div>`;
+    }
 
-<section id="services">
-<h2 class="section-title">الخدمات</h2>
-<div class="container services">
+    function exitGame() {
+      document.getElementById('gameOverlay').style.display = 'none';
+    }
 
-<div class="service-box glass" style="padding:20px;text-align:center;">
-<h3>تصميم مواقع</h3>
-</div>
+    // --- محرك الشطرنج (أسود وأبيض) ---
+    function loadChess() {
+      const stage = document.getElementById('stage');
+      stage.innerHTML = `<div id="c-status" style="margin-bottom:10px">دور الأبيض</div><div class="chess-board" id="board"></div>`;
+      const game = new Chess();
+      const pieces = {'p':'♟','r':'♜','n':'♞','b':'♝','q':'♛','k':'♚','P':'♙','R':'♖','N':'♘','B':'♗','Q':'♕','K':'♔'};
+      let selected = null;
 
-<div class="service-box glass" style="padding:20px;text-align:center;">
-<h3>برمجة</h3>
-</div>
+      function draw() {
+        const b = document.getElementById('board');
+        b.innerHTML = '';
+        game.board().forEach((row, r) => {
+          row.forEach((cell, c) => {
+            const sqName = String.fromCharCode(97+c)+(8-r);
+            const div = document.createElement('div');
+            div.className = `sq ${(r+c)%2===0 ? 'w-sq' : 'b-sq'}`;
+            if(selected === sqName) div.classList.add('selected');
+            if(cell) div.textContent = pieces[cell.color === 'w' ? cell.type.toUpperCase() : cell.type];
+            div.onclick = () => {
+              if(!selected) {
+                if(cell && cell.color === game.turn()) { selected = sqName; draw(); }
+              } else {
+                game.move({from: selected, to: sqName, promotion: 'q'});
+                selected = null;
+                draw();
+                if(!game.game_over()) setTimeout(aiMove, 500);
+              }
+            };
+            b.appendChild(div);
+          });
+        });
+        document.getElementById('c-status').textContent = `دور ${game.turn()==='w'?'الأبيض':'الأسود'}`;
+      }
+      function aiMove() {
+        const moves = game.moves();
+        if(moves.length) game.move(moves[Math.floor(Math.random()*moves.length)]);
+        draw();
+      }
+      draw();
+    }
 
-</div>
-</section>
+    // --- محرك الذاكرة ---
+    function loadMemory() {
+      const stage = document.getElementById('stage');
+      const icons = ['🍎','🍎','🍌','🍌','🍇','🍇','🍒','🍒','🍓','🍓','🍍','🍍'].sort(() => Math.random() - 0.5);
+      stage.innerHTML = `<div class="mem-grid">${icons.map(i => `<div class="mem-card" data-val="${i}" onclick="flip(this)">${i}</div>`).join('')}</div>`;
+    }
+    let flipped = [];
+    window.flip = (el) => {
+      if(flipped.length < 2 && !el.classList.contains('flipped')) {
+        el.classList.add('flipped');
+        flipped.push(el);
+        if(flipped.length === 2) {
+          if(flipped[0].dataset.val === flipped[1].dataset.val) flipped = [];
+          else setTimeout(() => { flipped.forEach(x => x.classList.remove('flipped')); flipped = []; }, 800);
+        }
+      }
+    };
 
-<section id="contact">
-<h2 class="section-title">تواصل</h2>
-<div class="container contact-wrapper">
+    // --- محرك سرعة النقر ---
+    function loadClicker() {
+      const stage = document.getElementById('stage');
+      let score = 0, time = 10;
+      stage.innerHTML = `<h2 id="s">0</h2><button onclick="hit()" style="padding:20px 40px; font-size:2rem; border-radius:20px; border:none; background:var(--accent); color:white; cursor:pointer">إضغط!</button><p id="t">الوقت: 10</p>`;
+      const itv = setInterval(() => {
+        time--;
+        document.getElementById('t').textContent = `الوقت: ${time}`;
+        if(time <= 0) { clearInterval(itv); alert(`النتيجة النهائية: ${score}`); loadClicker(); }
+      }, 1000);
+      window.hit = () => { score++; document.getElementById('s').textContent = score; };
+    }
 
-<form action="https://formsubmit.co/example@mail.com" method="POST" class="glass" style="padding:20px;">
-<input type="text" placeholder="اسمك" required><br><br>
-<input type="email" placeholder="بريدك" required><br><br>
-<textarea placeholder="رسالتك"></textarea><br><br>
-<button class="btn">إرسال</button>
-</form>
+    // --- محرك الثعبان ---
+    function loadSnake() {
+      const stage = document.getElementById('stage');
+      stage.innerHTML = `<canvas id="snakeCanvas" width="300" height="300"></canvas>`;
+      const canvas = document.getElementById('snakeCanvas');
+      const ctx = canvas.getContext('2d');
+      let snake = [{x:10, y:10}], food = {x:15, y:15}, dx = 1, dy = 0;
+      
+      const gameLoop = setInterval(() => {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        if(head.x<0||head.x>=20||head.y<0||head.y>=20) { clearInterval(gameLoop); alert('خسرت!'); loadSnake(); return; }
+        snake.unshift(head);
+        if(head.x === food.x && head.y === food.y) food = {x:Math.floor(Math.random()*20), y:Math.floor(Math.random()*20)};
+        else snake.pop();
+        
+        ctx.fillStyle = '#000'; ctx.fillRect(0,0,300,300);
+        ctx.fillStyle = 'lime'; snake.forEach(s => ctx.fillRect(s.x*15, s.y*15, 14, 14));
+        ctx.fillStyle = 'red'; ctx.fillRect(food.x*15, food.y*15, 14, 14);
+      }, 150);
+      
+      window.onkeydown = (e) => {
+        if(e.key === 'ArrowUp' && dy === 0) {dx=0; dy=-1;}
+        if(e.key === 'ArrowDown' && dy === 0) {dx=0; dy=1;}
+        if(e.key === 'ArrowLeft' && dx === 0) {dx=-1; dy=0;}
+        if(e.key === 'ArrowRight' && dx === 0) {dx=1; dy=0;}
+      };
+    }
 
-<div class="glass" style="padding:20px;">
-<p>email@example.com</p>
-</div>
-
-</div>
-</section>
-
-<footer style="text-align:center;padding:20px;">
-© 2026
-</footer>
-
-<!-- WHATSAPP -->
-<a href="https://wa.me/966500000000" target="_blank" class="whatsapp">
-<i class="fa fa-whatsapp"></i>
-</a>
-
-<!-- TOP -->
-<button id="topBtn">↑</button>
-
-<script>
-
-/* LOADER */
-window.addEventListener("load", ()=>{
-document.getElementById("loader").style.display="none";
-});
-
-/* MENU */
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("active");
-}
-
-/* SCROLL */
-function scrollToSection(id){
-document.getElementById(id).scrollIntoView({behavior:"smooth"});
-}
-
-/* TYPING */
-const text="موقع احترافي 🔥";
-let i=0;
-function type(){
-if(i<text.length){
-document.getElementById("typing").innerHTML+=text.charAt(i);
-i++;
-setTimeout(type,50);
-}
-}
-type();
-
-/* TOP BUTTON */
-const topBtn=document.getElementById("topBtn");
-window.addEventListener("scroll",()=>{
-if(window.scrollY>300){
-topBtn.style.display="block";
-}else{
-topBtn.style.display="none";
-}
-});
-topBtn.onclick=()=>{
-window.scrollTo({top:0,behavior:"smooth"});
-};
-
-</script>
-
+    window.onload = init;
+  </script>
 </body>
 </html>
+
+```
