@@ -1,282 +1,106 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>موقع متعدد اللغات | Multi-language Site</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Lang Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- ================== HEADER ================== -->
-    <header class="site-header">
-        <div class="container header-container">
-            <div class="logo">
-                <span class="logo-icon">🌐</span>
-                <span class="logo-text" data-i18n="siteName">موقعي المتعدد اللغات</span>
-            </div>
 
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#hero" data-i18n="navHome">الرئيسية</a></li>
-                    <li><a href="#features" data-i18n="navFeatures">المميزات</a></li>
-                    <li><a href="#about" data-i18n="navAbout">من نحن</a></li>
-                    <li><a href="#gallery" data-i18n="navGallery">المعرض</a></li>
-                    <li><a href="#contact" data-i18n="navContact">تواصل معنا</a></li>
-                </ul>
-            </nav>
+    <nav class="navbar">
+        <div class="logo">GENESIS<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="#home" data-key="nav_home">الرئيسية</a></li>
+            <li><a href="#about" data-key="nav_about">عني</a></li>
+            <li><a href="#services" data-key="nav_services">الخدمات</a></li>
+            <li><a href="#contact" data-key="nav_contact">اتصل بنا</a></li>
+        </ul>
+        <div class="lang-switcher">
+            <button onclick="changeLanguage('ar')">AR</button>
+            <button onclick="changeLanguage('en')">EN</button>
+            <button onclick="changeLanguage('fr')">FR</button>
+        </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
 
-            <div class="lang-switcher">
-                <button class="lang-btn active" data-lang="ar">العربية</button>
-                <button class="lang-btn" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="fr">FR</button>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 data-key="hero_title">مرحباً بكم في عالم الإبداع</h1>
+            <p data-key="hero_desc">نحن نبني حلولاً رقمية تجمع بين الجمال والأداء العالي لخدمة طموحاتكم.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn primary" data-key="btn_start">ابدأ الآن</a>
+                <a href="#services" class="btn secondary" data-key="btn_more">اكتشف المزيد</a>
             </div>
         </div>
-    </header>
+        <div class="hero-shape"></div>
+    </section>
 
-    <!-- ================== HERO SECTION ================== -->
-    <section id="hero" class="hero-section">
-        <div class="container hero-container">
-            <div class="hero-text">
-                <h1 data-i18n="heroTitle">مرحباً بك في موقع متعدد اللغات</h1>
-                <p data-i18n="heroSubtitle">
-                    هذا مثال لموقع بسيط يدعم ثلاث لغات: العربية، الإنجليزية، والفرنسية، مع تصميم متجاوب وجميل.
-                </p>
-                <div class="hero-actions">
-                    <a href="#features" class="btn primary" data-i18n="heroPrimaryBtn">اكتشف المميزات</a>
-                    <a href="#about" class="btn secondary" data-i18n="heroSecondaryBtn">تعرف علينا أكثر</a>
-                </div>
-                <div class="hero-note" data-i18n="heroNote">
-                    يمكنك تغيير اللغة من الأعلى لمشاهدة المحتوى بلغات مختلفة.
-                </div>
+    <section class="stats">
+        <div class="stat-item">
+            <h2 class="counter" data-target="150">0</h2>
+            <p data-key="stat_projects">مشروع مكتمل</p>
+        </div>
+        <div class="stat-item">
+            <h2 class="counter" data-target="85">0</h2>
+            <p data-key="stat_clients">عميل سعيد</p>
+        </div>
+        <div class="stat-item">
+            <h2 class="counter" data-target="12">0</h2>
+            <p data-key="stat_years">سنوات خبرة</p>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <h2 class="section-title" data-key="services_title">خدماتنا المميزة</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-code"></i>
+                <h3 data-key="ser_1_title">تطوير الويب</h3>
+                <p data-key="ser_1_desc">بناء مواقع سريعة ومتجاوبة باستخدام أحدث التقنيات العالمية.</p>
             </div>
-            <div class="hero-visual">
-                <div class="hero-card">
-                    <h2 data-i18n="heroCardTitle">تجربة مستخدم سلسة</h2>
-                    <p data-i18n="heroCardText">
-                        تم بناء هذا المثال باستخدام HTML وCSS وJavaScript فقط، بدون أي إطار عمل.
-                    </p>
-                    <ul class="hero-list">
-                        <li data-i18n="heroList1">تصميم متجاوب مع جميع الشاشات</li>
-                        <li data-i18n="heroList2">دعم تعدد اللغات</li>
-                        <li data-i18n="heroList3">سهل التعديل والتطوير</li>
-                    </ul>
-                </div>
+            <div class="service-card">
+                <i class="fas fa-paint-brush"></i>
+                <h3 data-key="ser_2_title">تصميم UI/UX</h3>
+                <p data-key="ser_2_desc">واجهات مستخدم جذابة تركز على تجربة المستخدم وسهولة التصفح.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-rocket"></i>
+                <h3 data-key="ser_3_title">التسويق الرقمي</h3>
+                <p data-key="ser_3_desc">نمو سريع لعلامتك التجارية من خلال استراتيجيات تسويق مدروسة.</p>
             </div>
         </div>
     </section>
 
-    <!-- ================== FEATURES SECTION ================== -->
-    <section id="features" class="features-section">
-        <div class="container">
-            <h2 class="section-title" data-i18n="featuresTitle">مميزات الموقع</h2>
-            <p class="section-subtitle" data-i18n="featuresSubtitle">
-                مجموعة من الخصائص التي تجعل هذا المثال نقطة انطلاق جيدة لمشاريعك القادمة.
-            </p>
-
-            <div class="features-grid">
-                <article class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 data-i18n="feature1Title">أداء عالي</h3>
-                    <p data-i18n="feature1Text">
-                        الموقع ثابت (Static) ويعمل مباشرة من GitHub Pages بدون خوادم معقدة أو إعدادات صعبة.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3 data-i18n="feature2Title">متجاوب مع الجوال</h3>
-                    <p data-i18n="feature2Text">
-                        التصميم متجاوب بالكامل مع الشاشات الصغيرة والكبيرة، من الهواتف إلى الشاشات العريضة.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3 data-i18n="feature3Title">تعدد اللغات</h3>
-                    <p data-i18n="feature3Text">
-                        يدعم ثلاث لغات يمكن التبديل بينها بضغطة زر، مع تغيير اتجاه الصفحة تلقائياً.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <div class="feature-icon">🧩</div>
-                    <h3 data-i18n="feature4Title">سهل التخصيص</h3>
-                    <p data-i18n="feature4Text">
-                        يمكنك تعديل الألوان، الخطوط، والأقسام بسهولة لتناسب هويتك البصرية أو مشروعك الخاص.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <div class="feature-icon">☁️</div>
-                    <h3 data-i18n="feature5Title">استضافة مجانية</h3>
-                    <p data-i18n="feature5Text">
-                        يتم استضافة الموقع مجاناً عبر GitHub Pages مع دعم HTTPS تلقائي.
-                    </p>
-                </article>
-
-                <article class="feature-card">
-                    <div class="feature-icon">🛠️</div>
-                    <h3 data-i18n="feature6Title">تعليمي</h3>
-                    <p data-i18n="feature6Text">
-                        الكود منظم ومشروح، مما يجعله مثالاً جيداً لتعلم أساسيات تطوير الواجهات الأمامية.
-                    </p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================== ABOUT SECTION ================== -->
-    <section id="about" class="about-section">
-        <div class="container about-container">
-            <div class="about-text">
-                <h2 class="section-title" data-i18n="aboutTitle">عن هذا المثال</h2>
-                <p data-i18n="aboutParagraph1">
-                    تم إنشاء هذا الموقع كنموذج تعليمي يوضح كيفية بناء صفحة هبوط بسيطة تدعم عدة لغات
-                    باستخدام HTML وCSS وJavaScript فقط، مع إمكانية رفعها على GitHub Pages.
-                </p>
-                <p data-i18n="aboutParagraph2">
-                    يمكنك استخدام هذا الكود كنقطة بداية لموقع شخصي، صفحة مشروع، أو حتى صفحة تعريف لخدمة
-                    تقدمها. كل ما عليك هو تعديل النصوص والألوان بما يناسبك.
-                </p>
-                <p data-i18n="aboutParagraph3">
-                    في ملف JavaScript ستجد كائن الترجمة الذي يحتوي على النصوص لكل لغة. يمكنك إضافة لغات
-                    أخرى أو تعديل النصوص الحالية بسهولة.
-                </p>
-            </div>
-            <div class="about-panel">
-                <h3 data-i18n="aboutPanelTitle">معلومات تقنية</h3>
-                <ul class="about-list">
-                    <li data-i18n="aboutTech1">الهيكل: HTML5 مع تقسيم واضح للأقسام.</li>
-                    <li data-i18n="aboutTech2">التصميم: CSS مع Grid وFlexbox.</li>
-                    <li data-i18n="aboutTech3">التفاعل: JavaScript بسيط لتبديل اللغة.</li>
-                    <li data-i18n="aboutTech4">الاستضافة: GitHub Pages مجاناً.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================== GALLERY SECTION ================== -->
-    <section id="gallery" class="gallery-section">
-        <div class="container">
-            <h2 class="section-title" data-i18n="galleryTitle">معرض البطاقات</h2>
-            <p class="section-subtitle" data-i18n="gallerySubtitle">
-                بطاقات عشوائية تمثل أقساماً أو مشاريع يمكنك استبدالها بمحتواك الحقيقي.
-            </p>
-
-            <div class="gallery-grid">
-                <article class="gallery-card">
-                    <div class="gallery-badge">01</div>
-                    <h3 data-i18n="galleryCard1Title">صفحة هبوط</h3>
-                    <p data-i18n="galleryCard1Text">
-                        استخدم هذا التصميم كنقطة بداية لصفحة هبوط لخدمتك أو منتجك.
-                    </p>
-                </article>
-
-                <article class="gallery-card">
-                    <div class="gallery-badge">02</div>
-                    <h3 data-i18n="galleryCard2Title">ملف شخصي</h3>
-                    <p data-i18n="galleryCard2Text">
-                        عدّل النصوص والصور لتحويله إلى صفحة تعريفية عنك أو عن فريقك.
-                    </p>
-                </article>
-
-                <article class="gallery-card">
-                    <div class="gallery-badge">03</div>
-                    <h3 data-i18n="galleryCard3Title">صفحة مشروع</h3>
-                    <p data-i18n="galleryCard3Text">
-                        اعرض مشروعك، مميزاته، وروابطه في هذه البطاقات بطريقة منظمة.
-                    </p>
-                </article>
-
-                <article class="gallery-card">
-                    <div class="gallery-badge">04</div>
-                    <h3 data-i18n="galleryCard4Title">مدونة بسيطة</h3>
-                    <p data-i18n="galleryCard4Text">
-                        يمكنك تحويل هذه البطاقات إلى مقالات قصيرة أو تدوينات.
-                    </p>
-                </article>
-
-                <article class="gallery-card">
-                    <div class="gallery-badge">05</div>
-                    <h3 data-i18n="galleryCard5Title">صفحة تعليمية</h3>
-                    <p data-i18n="galleryCard5Text">
-                        استخدم الأقسام لشرح مفهوم معين أو دورة قصيرة.
-                    </p>
-                </article>
-
-                <article class="gallery-card">
-                    <div class="gallery-badge">06</div>
-                    <h3 data-i18n="galleryCard6Title">لوحة روابط</h3>
-                    <p data-i18n="galleryCard6Text">
-                        اجمع روابطك المهمة في مكان واحد مع وصف بسيط لكل رابط.
-                    </p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================== CONTACT SECTION ================== -->
-    <section id="contact" class="contact-section">
-        <div class="container contact-container">
+    <section id="contact" class="contact">
+        <div class="contact-container">
             <div class="contact-info">
-                <h2 class="section-title" data-i18n="contactTitle">تواصل معنا</h2>
-                <p data-i18n="contactText">
-                    هذا نموذج تواصل بسيط (غير متصل بخلفية حقيقية) يمكنك ربطه لاحقاً بخدمة بريد أو API.
-                </p>
-                <ul class="contact-list">
-                    <li>
-                        <span class="contact-label" data-i18n="contactEmailLabel">البريد الإلكتروني:</span>
-                        <span class="contact-value">example@mail.com</span>
-                    </li>
-                    <li>
-                        <span class="contact-label" data-i18n="contactPhoneLabel">رقم الهاتف:</span>
-                        <span class="contact-value">+966 500000000</span>
-                    </li>
-                    <li>
-                        <span class="contact-label" data-i18n="contactLocationLabel">الموقع:</span>
-                        <span class="contact-value" data-i18n="contactLocationValue">السعودية - مكة</span>
-                    </li>
-                </ul>
+                <h2 data-key="contact_title">تواصل معنا</h2>
+                <p data-key="contact_desc">لا تتردد في مراسلتنا لأي استفسار أو مشروع جديد.</p>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@genesis.com</span>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
             </div>
-
-            <form class="contact-form" onsubmit="return false;">
-                <div class="form-group">
-                    <label for="name" data-i18n="contactFormNameLabel">الاسم</label>
-                    <input id="name" type="text" placeholder="" data-i18n-placeholder="contactFormNamePlaceholder" />
-                </div>
-
-                <div class="form-group">
-                    <label for="email" data-i18n="contactFormEmailLabel">البريد الإلكتروني</label>
-                    <input id="email" type="email" placeholder="" data-i18n-placeholder="contactFormEmailPlaceholder" />
-                </div>
-
-                <div class="form-group">
-                    <label for="message" data-i18n="contactFormMessageLabel">الرسالة</label>
-                    <textarea id="message" rows="4" placeholder="" data-i18n-placeholder="contactFormMessagePlaceholder"></textarea>
-                </div>
-
-                <button class="btn primary full-width" data-i18n="contactFormSubmit">إرسال الرسالة (وهمية)</button>
-
-                <p class="form-note" data-i18n="contactFormNote">
-                    هذا النموذج للتجربة فقط، لن يتم إرسال أي بيانات حقيقية.
-                </p>
+            <form class="contact-form" id="mainForm">
+                <input type="text" id="name" placeholder="الاسم الكامل" required>
+                <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+                <textarea id="message" rows="5" placeholder="رسالتك هنا..." required></textarea>
+                <button type="submit" class="btn primary" data-key="btn_send">إرسال الرسالة</button>
             </form>
         </div>
     </section>
 
-    <!-- ================== FOOTER ================== -->
-    <footer class="site-footer">
-        <div class="container footer-container">
-            <p class="footer-text" data-i18n="footerText">
-                تم إنشاء هذا المثال لأغراض تعليمية. يمكنك نسخه وتعديله كما تشاء.
-            </p>
-            <p class="footer-text small">
-                <span data-i18n="footerHint">نصيحة:</span>
-                <span data-i18n="footerHintText">
-                    جرّب رفع هذا الموقع على GitHub Pages لمشاركته مع أصدقائك.
-                </span>
-            </p>
-        </div>
+    <footer>
+        <p>&copy; 2024 GENESIS - <span data-key="footer_rights">جميع الحقوق محفوظة</span></p>
     </footer>
 
     <script src="script.js"></script>
