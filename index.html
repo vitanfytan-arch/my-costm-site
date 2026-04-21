@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">منصة CoStM التعليمية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">CoStM<span>EDU</span></div>
+        <ul class="nav-links">
+            <li><a href="#home" id="ln-home">الرئيسية</a></li>
+            <li><a href="#courses" id="ln-courses">المواد الدراسية</a></li>
+            <li><a href="#schedule" id="ln-schedule">الجدول الدراسي</a></li>
+            <li><a href="#contact" id="ln-contact">الدعم الفني</a></li>
+        </ul>
+        <div class="lang-selector">
+            <select onchange="changeLanguage(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+    </nav>
+
+    <header class="hero" id="home">
+        <div class="hero-overlay">
+            <h1 id="welcome-h">مرحباً بك في رحلتك التعليمية</h1>
+            <p id="welcome-p">منصة متكاملة لطلاب المرحلة الثانوية - مسارات التميز.</p>
+            <div class="stats">
+                <div class="stat-item"><i class="fas fa-book"></i> <span id="st-1">15 مادة</span></div>
+                <div class="stat-item"><i class="fas fa-video"></i> <span id="st-2">500 درس</span></div>
+                <div class="stat-item"><i class="fas fa-user-graduate"></i> <span id="st-3">1000 طالب</span></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="courses" id="courses">
+        <h2 class="sec-title" id="course-title">أقسام المواد</h2>
+        <div class="course-grid">
+            <div class="course-card">
+                <i class="fas fa-flask"></i>
+                <h3 id="c1-title">الكيمياء 2-2</h3>
+                <p id="c1-desc">شرح كامل لدروس الطاقة، الديناميكا الحرارية، وسرعة التفاعلات.</p>
+                <button class="btn-open" id="c1-btn">فتح المنهج</button>
+            </div>
+            <div class="course-card">
+                <i class="fas fa-code"></i>
+                <h3 id="c2-title">التقنية الرقمية</h3>
+                <p id="c2-desc">تعلم البرمجة، تطوير الويب، وقواعد البيانات الحديثة.</p>
+                <button class="btn-open" id="c2-btn">ابدأ البرمجة</button>
+            </div>
+            <div class="course-card">
+                <i class="fas fa-atom"></i>
+                <h3 id="c3-title">الفيزياء</h3>
+                <p id="c3-desc">تجارب عملية وشروحات لقوانين الحركة والكهرباء.</p>
+                <button class="btn-open" id="c3-btn">استكشف</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="schedule" id="schedule">
+        <h2 id="sch-title">الجدول الأسبوعي</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="th-day">اليوم</th>
+                        <th>08:00 - 09:00</th>
+                        <th>09:00 - 10:00</th>
+                        <th>10:00 - 11:00</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="day-1">الأحد</td>
+                        <td>كيمياء</td>
+                        <td>رياضيات</td>
+                        <td>فيزياء</td>
+                    </tr>
+                    <tr>
+                        <td id="day-2">الاثنين</td>
+                        <td>تقنية رقمية</td>
+                        <td>إنجليزي</td>
+                        <td>أحياء</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="projects">
+        <h2 id="proj-title">مساحة المشاريع</h2>
+        <div class="comment-box">
+            <textarea id="comment-input" placeholder="اكتب ملاحظاتك الدراسية هنا..."></textarea>
+            <button onclick="saveNote()" id="save-btn">حفظ الملاحظة</button>
+            <div id="notes-display"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p id="footer-text">&copy; 2026 منصة CoStM التعليمية - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
