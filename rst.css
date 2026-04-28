@@ -1,0 +1,80 @@
+/* A4 Layout */
+.page {
+    width: 794px;      /* A4 width */
+    min-height: 1123px; /* A4 height */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* General */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Tajawal", sans-serif;
+}
+
+body {
+    background: #050816;
+    color: #fff;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.card h2 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+/* List */
+.sports-list {
+    list-style: none;
+}
+
+.sports-list li {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mark {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+/* Buttons */
+.footer-nav {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background: #1f2937;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+}
